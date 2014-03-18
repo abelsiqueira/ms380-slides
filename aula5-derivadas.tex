@@ -1,0 +1,467 @@
+\documentclass[10 pt]{beamer}
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+\usepackage[utf8]{inputenc}
+\usepackage{framed}
+%\usepackage[dvipsnames]{color}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{epsfig}
+\usepackage{abel}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usetikzlibrary{plotmarks}
+\usepackage{amssymb, amsmath, amsfonts}
+\bibliographystyle{plain}
+%\topmargin		0 cm
+%\hoffset		0 cm
+%\voffset		0 cm
+%\evensidemargin		0 cm
+%\oddsidemargin		0 cm
+%\setlength{\textwidth}{16 cm}
+%\setlength{\textheight}{21 cm}
+
+\colorlet{mybasecolor}[rgb]{teal}
+
+\colorlet{mydarkestcolor}[rgb]{mybasecolor!20!black}
+\colorlet{mydarkcolor}[rgb]{mybasecolor!60!black}
+\colorlet{mynormalcolor}[rgb]{mybasecolor!90!black}
+\colorlet{mylightcolor}[rgb]{mybasecolor!10!white}
+
+\colorlet{mysidebarcolor}[rgb]{mydarkcolor}
+\colorlet{mylogobg}[rgb]{mylightcolor}
+\colorlet{mylogofg}[rgb]{mydarkestcolor}
+\colorlet{mysidebarauthor}[rgb]{mylightcolor}
+\colorlet{mysidebartitle}[rgb]{mylightcolor}
+\colorlet{mysidebarsecfg}[rgb]{mydarkestcolor}
+\colorlet{mysidebarsecbg}[rgb]{mylightcolor}
+\colorlet{mysidebarsubsecfg}[rgb]{mydarkestcolor}
+\colorlet{mysidebarsubsecbg}[rgb]{mylightcolor}
+\colorlet{myframetitlefg}[rgb]{mylightcolor}
+\colorlet{myframetitlebg}[rgb]{mydarkcolor}
+\colorlet{myitemcolor}[rgb]{mynormalcolor}
+\colorlet{myfontcolor}[rgb]{mydarkestcolor}
+\colorlet{mytitlefg}[rgb]{mylightcolor}
+\colorlet{mytitlebg}[rgb]{mydarkcolor}
+\colorlet{myauthorfg}[rgb]{mylightcolor}
+\colorlet{myauthorbg}[rgb]{mydarkcolor}
+
+\useinnertheme{rounded}
+\setbeamercolor{structure}{fg = myitemcolor}
+%\useoutertheme[height=1 cm,width=1.6 cm]{sidebar}
+\useoutertheme{smoothtree}
+
+\setbeamercolor{palette secondary}{bg=mylogobg,fg=mylogofg} %cor do logo
+\setbeamercolor{sidebar}{bg=mysidebarcolor} %Background do sidebar
+\setbeamercolor{palette sidebar tertiary}{fg = mysidebarauthor} %Autor no sidebar
+\setbeamercolor{palette sidebar quaternary}{fg = mysidebartitle} %Titulo no sidebar
+\setbeamercolor{section in sidebar}{fg = mysidebarsecfg,bg = mysidebarsecbg} %A cor eh a media de fg e bg
+\setbeamercolor{subsection in sidebar}{fg = mysidebarsubsecfg,bg = mysidebarsubsecbg} %A cor eh a media de fg e bg
+\setbeamercolor{frametitle}{fg = myframetitlefg, bg = myframetitlebg} 
+\setbeamercolor{title}{bg = mytitlebg,fg = mytitlefg}
+\setbeamerfont{title}{series = \bf}
+\setbeamercolor{author}{bg = myauthorbg,fg = myauthorfg}
+\setbeamerfont{author}{series = \it}
+\setbeamercolor{normal text}{bg = white, fg = myfontcolor}
+%\setbeamercolor{normal text}{bg = black, fg = white}
+%\setbeamerfont{normal text}{family=serif}
+\usefonttheme[onlymath]{serif}
+%\logo{\includegraphics[scale=0.35]{logo.png}}
+%\logo{$\min f(x)$}
+
+\newcommand{\makesection}[1]{\section[#1]{#1}}
+\newcommand{\makesubsection}[1]{\subsection[#1]{#1}}
+\newcommand{\tikzcircle}{arc (0:360:0.01)}
+
+\algrenewcommand\algorithmicif{\textbf{se}}
+\algrenewcommand\algorithmicthen{\textbf{então}}
+\algrenewcommand\algorithmicend{\textbf{fim do}}
+\algrenewcommand\algorithmicwhile{\textbf{enquanto}}
+\algrenewcommand\algorithmicdo{\textbf{faça}}
+\algrenewcommand\algorithmicelse{\textbf{senão}}
+
+\title{ MS380 - Aula 5 \\
+Derivadas}
+\author{Abel Soares Siqueira \\
+Laércio Luís Vendite}
+\date{}
+
+\newcommand{\myframe}[1]{
+\begin{frame}
+ \frametitle{\insertsection \qquad {\small \insertsubsection}}
+#1
+\end{frame}}
+\newcommand{\myframetop}[1]{
+\begin{frame}[t]
+ \frametitle{\insertsection \qquad {\small \insertsubsection}}
+#1
+\end{frame}}
+% \newcommand{\visiblelbl}[1]{\label{#1}{\color{red}{#1}}}
+\newcommand{\visiblelbl}[1]{\label{#1}}
+\newcommand{\spc}{\vspace{0.5 cm}}
+\newcommand{\systemtwo}[1]{$
+  \left\{\begin{array}{rcrcr} #1
+  \end{array}\right.$}
+\newcommand{\systemthree}[1]{$
+  \left\{\begin{array}{rcrcrcr}
+  #1
+  \end{array}\right.$}
+
+\newcommand{\limninf}{\lim_{n\rightarrow\infty}}
+\newcommand{\limx}[1]{\lim_{x\rightarrow{#1}}}
+\newcommand{\limh}[1]{\lim_{h\rightarrow{#1}}}
+\newcommand{\fundef}[1]{\left\{\begin{array}{ll}{#1}\end{array}\right.}
+
+\begin{document}
+
+\begin{frame}
+ \titlepage
+\end{frame}
+
+\makesection{Derivadas}
+
+\myframetop {
+  \begin{center}
+  \begin{tikzpicture}[domain=-2:3,scale=1]
+    \draw[->] (-2.1,0) -- (3.1,0);
+    \draw[->] (0,-0.1) -- (0,4.1);
+    \draw plot (\x,{0.5*2^\x});
+    \draw[dashed] (1,-0.2) node[below left] {$a$} -- (1,1) -- (0,1) node[below left] {$f(a)$};
+    \foreach \n in {1,2,3,4,5,6,7} {
+      \only<\n>{
+        \draw[dashed] ({3-\n/4},-0.2) -- ({3-\n/4},{0.5*2^(3-\n/4)})
+          -- (0,{0.5*2^(3-\n/4)}) node[left] {$f(a+h)$};
+        \draw[<->] (1,-0.2) -- node[below] {$h$} ({3-\n/4},-0.2);
+        \draw[domain=0:3,red] plot 
+          (\x, {( (0.5*2^(3-\n/4) - 1)/(2-\n/4) )*(\x-1)+1});
+      }
+    }
+  \end{tikzpicture}
+  \end{center}
+  $$ m = \dfrac{f(a+h)-f(a)}{h} $$
+}
+
+\myframetop {
+  \begin{center}
+  \begin{tikzpicture}[domain=-2:3,scale=1]
+    \draw[->] (-2.1,0) -- (3.1,0);
+    \draw[->] (0,-0.1) -- (0,4.1);
+    \draw plot (\x,{0.5*2^\x});
+    \draw[dashed] (1,-0.2) node[below left] {$a$} -- (1,1) -- (0,1) node[below left] {$f(a)$};
+    \draw[domain=0:3,red] plot 
+      (\x, {ln(2)*(\x-1) + 1});
+  \end{tikzpicture}
+  \end{center}
+  $$ m = f'(a) $$
+}
+
+\myframe {
+  A derivada de uma função $f:D\rightarrow CD$ num ponto $a \in D$ é definida
+  como
+  $$ f'(a) = \limh{0}\frac{f(a+h) - f(a)}{h}, $$
+  se o limite existir. Nesse caso, dizemos que $f$ é diferenciável no ponto
+  $a$. Caso contrário, dizemos que $f$ não é diferenciável no ponto $a$.
+
+  Se a função tem derivada tem todos os pontos do domínio, dizemos que ela
+  é diferenciável.
+
+}
+
+\myframe {
+  Podemos considerar que o argumento da derivada é uma variável e criar a
+  função derivada $f':A\rightarrow CD$.
+  $$ f'(x) = \limh{0}\frac{f(x+h) - f(x)}{h}, $$
+  onde $A$ é o subconjunto de pontos de $C$ (o domínio de $f$) em que
+  a derivada existe.
+
+  Se a função é diferenciável e a derivada é contínua, então dizemos que
+  a função é continuamente diferenciável.
+
+  Outras notações são
+  $$ f'(x) = \frac{df}{dx}(x) = \dfrac{d}{dx}f(x) $$
+}
+
+\subsection{Exemplos}
+
+\myframe {
+  A função constante
+  $$ f(x) = A. $$
+  \vspace{0.5cm}
+  \begin{align*}
+    f'(x) & = \limh{0}\frac{f(x+h)-f(x)}{h} \\
+      & = \limh{0}\frac{A-A}{h} \\
+      & = \limh{0}\frac{0}{h} \\
+      & = \limh{0}0 = 0
+  \end{align*}
+}
+
+\myframe {
+  A função linear
+  $$ f(x) = ax + b $$
+  \vspace{0.5cm}
+  \begin{align*}
+    f'(x) & = \limh{0}\frac{f(x+h)-f(x)}{h} \\
+      & = \limh{0}\frac{a(x+h)+b - ax-b}{h} \\
+      & = \limh{0}\frac{ax+ah-ax}{h} \\
+      & = \limh{0}\frac{ah}{h} \\
+      & = \limh{0}a = a
+  \end{align*}
+}
+
+\myframe {
+  $$ f(x) = x^2 $$
+  \vspace{0.5cm}
+  \begin{align*}
+    f'(x) & = \limh{0}\frac{f(x+h)-f(x)}{h} \\
+      & = \limh{0}\frac{(x+h)^2 - x^2}{h} \\
+      & = \limh{0}\frac{x^2+2xh+h^2 - x^2}{h} \\
+      & = \limh{0}\frac{2xh + h^2}{h} \\
+      & = \limh{0}2x + h = 2x
+  \end{align*}
+}
+
+\myframe {
+  $$ f(x) = \sqrt{x} $$
+  \vspace{0.5cm}
+  \begin{align*}
+    f'(x) & = \limh{0}\frac{f(x+h)-f(x)}{h} = \limh{0}\frac{\sqrt{x+h}-\sqrt{x}}{h} \\
+      & = \limh{0}\frac{(\sqrt{x+h}-\sqrt{x})(\sqrt{x+h}+\sqrt{x})}{h(\sqrt{x+h}+\sqrt{x})} \\
+      & = \limh{0}\frac{x+h - x}{h(\sqrt{x+h}+\sqrt{x})} \\
+      & = \limh{0}\frac{1}{\sqrt{x+h} + \sqrt{x}} \\
+      & = \frac{1}{\sqrt{x}+\sqrt{x}} = \frac{1}{2\sqrt{x}}
+  \end{align*}
+}
+
+\myframe {
+  A função módulo não é derivável na origem.
+  $$ f(x) = \modulo{x} $$
+  \vspace{0.5cm}
+  \begin{align*}
+    f'(0) & = \limh{0}\frac{f(h)-f(0)}{h} \\
+      & = \limh{0}\frac{\modulo{h}}{h}
+  \end{align*}
+  Note que
+    $$\limh{0^+}\frac{\modulo{h}}{h} = 1 \qquad \mbox{e} \qquad
+      \limh{0^-}\frac{\modulo{h}}{h} = -1 $$
+  então o limite não existe.
+}
+
+\subsection{Cl\'assicos e Propriedades}
+
+\myframe {
+  $$ f(x) = x^n, \qquad f'(x) = nx^{n-1} $$
+  $$ f(x) = e^x, \qquad f'(x) = e^x $$
+  $$ f(x) = a^x, \qquad f'(x) = a^x\ln a $$
+  $$ f(x) = \ln x, \qquad f'(x) = \frac{1}{x} $$
+  $$ f(x) = \sin x, \qquad f'(x) = \cos x $$
+  $$ f(x) = \cos x, \qquad f'(x) = -\sin x $$
+  $$ f(x) = \tan x, \qquad f'(x) = \sec^2 x $$
+  \vspace{0.2 cm}
+  $$ (f \pm g)'(x) = f'(x) \pm g'(x) $$
+}
+
+\subsection{ Derivada do Produto }
+
+\myframe {
+  \begin{center}
+    {\bf ATENÇÃO}
+  \end{center}
+  A derivada do produto não é, em geral, igual ao produto das derivadas,
+  isto é,
+  $$ [f(x)g(x)]' \neq f'(x)g'(x) $$
+
+  Exemplo: $f(x) = x$ e $g(x) = 1$.
+  $$ f'(x) = 1 \qquad g'(x) = 0. $$
+  $$ [f(x)g(x)]' = [x]' = 1 $$
+  $$ f'(x)g'(x) = 1\times 0 = 0 $$
+}
+
+\myframe {
+  Regra do produto:
+
+  $$ [f(x)g(x)]' = f'(x)g(x) + f(x)g'(x) $$
+
+  Exemplos: 
+  \begin{itemize}
+    \item Calcule a derivada de $xe^x$.
+      $$ f(x) = x, g(x) = e^x \qquad f'(x) = 1, g'(x) = e^x $$
+      $$ [xe^x]' = f'(x)g(x) + f(x)g'(x) = 1e^x + xe^x = e^x(1+x) $$
+    \item Calcule a derivada de $\sin x \cos x$.
+      $$ f(x) = \sin x, g(x) = \cos x \qquad f'(x) = \cos x, g'(x) = -\sin x$$
+      $$ [\sin x\cos x]' = \cos x\cos x + \sin x(-\sin x) = \cos^2 x - \sin^2 x$$
+  \end{itemize}
+}
+
+\myframe {
+  Regra do quociente:
+
+  $$ \bigg[\frac{f(x)}{g(x)}\bigg]' = \frac{f'(x)g(x) - f(x)g'(x)}{g(x)^2} $$
+
+  Exemplos:
+  \begin{itemize}
+    \item Calcule a derivada de $\frac{x+1}{x}$.
+      $$ f(x) = x+1, g(x) = x \qquad f'(x) = 1, g'(x) = 1 $$
+      $$ \bigg[\frac{x+1}{x}\bigg]' 
+        = \frac{1x - (x+1)1}{x^2} = \frac{x-x-1}{x^2} = -\frac{1}{x^2} $$
+  \end{itemize}
+}
+
+\subsection{Derivadas de Ordens Superiores}
+
+\myframe {
+  Dado a função $f$ diferenciável, sua derivada $f'$ também é uma
+  função e pode ser que seja diferenciável. 
+  Dizemos que a derivada de $f'$ é a segunda derivada de $f$, e denotamos
+  por
+  $$f''(x) = [f'(x)]'$$
+  ou
+  $$ \frac{d^2}{dx^2}f(x) = \frac{d^2f}{dx^2}(x) = \frac{d}{dx}\frac{df}{dx}(x). $$
+  Também podemos calcular derivadas além dessas. Denotamos até a terceira derivada com
+  um apóstofre a mais, e a partir daí com $f^(n)(x)$, onde $n$ é a orderm da derivada,
+  podendo estar em numerais romanos minúsculos. Também podemos denotar como
+  $$ \frac{d^n}{dx^n}f(x) $$
+}
+
+\myframe {
+  $$ f(x) = x^5 - 4x^3 + 1$$
+  $$ f'(x) = 5x^4 - 12x^2 $$
+  $$ f''(x) = 20x^3 - 24x $$
+  $$ f'''(x) = 60x^2 - 24 $$
+  $$ f^{(iv)}(x) = 120x $$
+  $$ f^{(v)}(x) = 120 $$
+}
+
+\subsection{Regra da Cadeia}
+
+\myframe {
+  Se $f(x) = g(h(x))$, então a derivada de $f$ pode ser
+  calculada atráves das derivadas de $g$ e de $h$:
+  $$ f'(x) = g'(h(x))h'(x). $$
+
+  Também podemos escrever, se $y = y(x)$ e $x = x(t)$, por exemplo,
+  a regra da cadeia como
+    $$ \frac{dy}{dt} = \frac{dy}{dx}\frac{dx}{dt} $$
+}
+
+\myframe {
+  Exemplo 1: $f(x) = (x^2 - 3)^{10}$. 
+  
+  Note que $f(x) = g(h(x))$, com
+    $g(x) = x^{10}$ e $h(x) = x^2 - 3$. Então
+    \begin{align*}
+      f'(x) & = g'(h(x))h'(x) \\
+        & = 10(h(x))^9(2x) \\
+        & = 10(x^2 - 3)^9\times 2x \\
+        & = 20x(x^2 - 3)^9
+    \end{align*}
+}
+
+\myframe {
+  Exemplo 2: $f(x) = e^{-x^2}$.
+
+  Note que $f(x) = g(h(x))$, com
+    $g(x) = e^x$ e $h(x) = -x^2$. Então
+  \begin{align*}
+    f'(x) & = g'(h(x))h'(x) \\
+      & = e^{h(x)}(-2x) \\
+      & = e^{-x^2}(-2x) \\
+      & = -2xe^{-x^2}
+  \end{align*}
+}
+
+\myframe {
+  Algumas derivadas que os alunos costumar errar são as derivadas
+  básicas com alguma constante no argumento.
+  
+  Por exemplo, o aluno, sabendo que a derivada de $f(x) = \sin x$ é
+    $f'(x) = \cos x$, automaticamente considera que a derivada
+    de $g(x) = \sin 2x$ é $g'(x) = \cos 2x$, o que está errado.
+
+  Para calcular corretamente essa derivada, é necessário utilizar a
+  regra da cadeia, notando que a função de dentro é $2x$.
+  Dessa maneira, conseguimos atualizar a tabela de derivadas básicas
+}
+
+\myframe {
+  $$ f(x) = e^{\alpha x}, \qquad f'(x) = \alpha e^{\alpha x} $$
+  $$ f(x) = \sin \alpha x, \qquad f'(x) = \alpha \cos \alpha x $$
+  $$ f(x) = \cos \alpha x, \qquad f'(x) =  - \alpha \sin \alpha x $$
+  $$ f(x) = \tan \alpha x, \qquad f'(x) =  - \alpha \sec^2 \alpha x $$
+}
+
+\subsection{Derivadas Implícitas}
+
+\myframe {
+  Com a regra da cadeia podemos calcular algumas derivadas onde
+  a função não pode ser definida explicitamente.
+
+  Por exemplo, a equação de uma circunferência centrada na origem
+  de raio 1 é
+    $$ x^2 + y^2 = 1. $$
+  Para isolar o $y$ devemos criar duas funções, ambas com raízes.
+  Para alguns propósitos, é mais interessante manter a equação
+  assim.
+
+  Para calcular a derivada de $y$ em relação a $x$, derivamos
+  a equação em $x$.
+  $$ \frac{d}{dx}(x^2 + y^2) = \frac{d}{dx}1 $$
+  Pela regra da cadeia, teremos
+  $$ 2x + 2yy'(x) = 0 $$
+  Logo,
+  $$ y' = -\frac{x}{y}, \qquad y \neq 0.$$
+}
+
+\myframe {
+  Também podemos utilizar a derivada implícita para calcular
+  a derivada de funções inversas. Por exemplo, qual a derivada
+  de $f(x) = \arctan x$?
+
+  Temos $\tan (f(x)) = x$, daí
+  \begin{align*}
+    \frac{d}{dx}\tan (f(x)) & = \frac{d}{dx} x \\
+    f'(x) \sec^2 (f(x)) & = 1  \\
+    f'(x) & = \frac{1}{\sec^2 (f(x))}
+  \end{align*}
+  Lembrando que $\tan^2x + 1 = \sec^2x$, temos
+  \begin{align*}
+    f'(x) & = \frac{1}{1 + \tan^2(f(x))} \\
+    f'(x) & = \frac{1}{1 + x^2}
+  \end{align*}
+}
+
+\subsection{L'Hospital}
+
+\myframe {
+  Para limites indeterminados, podemos utilizar a derivada para 
+  facilitar o cálculo do limite.
+
+  No limite $$\displaystyle \limx{a} \frac{f(x)}{g(x)},$$
+  se ambos $f(x)$ e $g(x)$ divergem ilimitadamente ou convergem a $0$, então
+
+  $$ \limx{a} \frac{f(x)}{g(x)} = \limx{a} \frac{f'(x)}{g'(x)}. $$
+}
+
+\myframe {
+  {\bf Exemplo:} $\displaystyle\limx{0}\frac{\sin x}{x}$. (Já vimos esse limite,
+    só estamos mostrando a regra de L'Hospital.)
+
+  Como $$\limx{0}\sin x = 0 \qquad \mbox{e} \qquad \limx{0}x = 0,$$
+    o limite tende para $0/0$. Assim 
+    $$\limx{0} \frac{\sin x}{x} \overset{L'H}{=} \limx{0} \frac{\cos x}{1} 
+      = \limx{0} \cos x = 1.$$
+}
+
+\myframe {
+  {\bf Exemplo:} $\displaystyle \limx{+\infty} \frac{\ln x}{x}$.
+
+  Como $$\limx{+\infty}\ln x = +\infty \qquad \mbox{e} \qquad
+    \limx{+\infty} x = +\infty,$$
+    a regra de L'Hospital resulta
+    $$ \limx{+\infty} \frac{\ln x}{x} \overset{L'H}{=}
+      \limx{+\infty} \frac{1/x}{1} = 
+      \limx{+\infty} \frac{1}{x} = 0. $$
+}
+
+\end{document}

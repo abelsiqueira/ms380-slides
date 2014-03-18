@@ -1,0 +1,272 @@
+\documentclass[10 pt]{beamer}
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+\usepackage[utf8]{inputenc}
+\usepackage{framed}
+%\usepackage[dvipsnames]{color}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{multicol}
+\usepackage{algpseudocode}
+\usepackage{epsfig}
+\usepackage{abel}
+\usepackage{tikz}
+\usepackage{amssymb, amsmath, amsfonts}
+\bibliographystyle{plain}
+%\topmargin		0 cm
+%\hoffset		0 cm
+%\voffset		0 cm
+%\evensidemargin		0 cm
+%\oddsidemargin		0 cm
+%\setlength{\textwidth}{10,5 cm}
+%\setlength{\textheight}{21 cm}
+
+\colorlet{mybasecolor}[rgb]{teal}
+
+\colorlet{mydarkestcolor}[rgb]{mybasecolor!20!black}
+\colorlet{mydarkcolor}[rgb]{mybasecolor!60!black}
+\colorlet{mynormalcolor}[rgb]{mybasecolor!90!black}
+\colorlet{mylightcolor}[rgb]{mybasecolor!10!white}
+
+\colorlet{mysidebarcolor}[rgb]{mydarkcolor}
+\colorlet{mylogobg}[rgb]{mylightcolor}
+\colorlet{mylogofg}[rgb]{mydarkestcolor}
+\colorlet{mysidebarauthor}[rgb]{mylightcolor}
+\colorlet{mysidebartitle}[rgb]{mylightcolor}
+\colorlet{mysidebarsecfg}[rgb]{mydarkestcolor}
+\colorlet{mysidebarsecbg}[rgb]{mylightcolor}
+\colorlet{mysidebarsubsecfg}[rgb]{mydarkestcolor}
+\colorlet{mysidebarsubsecbg}[rgb]{mylightcolor}
+\colorlet{myframetitlefg}[rgb]{mylightcolor}
+\colorlet{myframetitlebg}[rgb]{mydarkcolor}
+\colorlet{myitemcolor}[rgb]{mynormalcolor}
+\colorlet{myfontcolor}[rgb]{mydarkestcolor}
+\colorlet{mytitlefg}[rgb]{mylightcolor}
+\colorlet{mytitlebg}[rgb]{mydarkcolor}
+\colorlet{myauthorfg}[rgb]{mylightcolor}
+\colorlet{myauthorbg}[rgb]{mydarkcolor}
+
+\useinnertheme{rounded}
+\setbeamercolor{structure}{fg = myitemcolor}
+%\useoutertheme[height=1 cm,width=1.6 cm]{sidebar}
+\useoutertheme{smoothtree}
+
+\setbeamercolor{palette secondary}{bg=mylogobg,fg=mylogofg} %cor do logo
+\setbeamercolor{sidebar}{bg=mysidebarcolor} %Background do sidebar
+\setbeamercolor{palette sidebar tertiary}{fg = mysidebarauthor} %Autor no sidebar
+\setbeamercolor{palette sidebar quaternary}{fg = mysidebartitle} %Titulo no sidebar
+\setbeamercolor{section in sidebar}{fg = mysidebarsecfg,bg = mysidebarsecbg} %A cor eh a media de fg e bg
+\setbeamercolor{subsection in sidebar}{fg = mysidebarsubsecfg,bg = mysidebarsubsecbg} %A cor eh a media de fg e bg
+\setbeamercolor{frametitle}{fg = myframetitlefg, bg = myframetitlebg} 
+\setbeamercolor{title}{bg = mytitlebg,fg = mytitlefg}
+\setbeamerfont{title}{series = \bf}
+\setbeamercolor{author}{bg = myauthorbg,fg = myauthorfg}
+\setbeamerfont{author}{series = \it}
+\setbeamercolor{normal text}{bg = white, fg = myfontcolor}
+%\setbeamercolor{normal text}{bg = black, fg = white}
+%\setbeamerfont{normal text}{family=serif}
+\usefonttheme[onlymath]{serif}
+%\logo{\includegraphics[scale=0.35]{logo.png}}
+%\logo{$\min f(x)$}
+
+\newcommand{\makesection}[1]{\section[#1]{#1}}
+\newcommand{\makesubsection}[1]{\subsection[#1]{#1}}
+
+\algrenewcommand\algorithmicif{\textbf{se}}
+\algrenewcommand\algorithmicthen{\textbf{então}}
+\algrenewcommand\algorithmicend{\textbf{fim do}}
+\algrenewcommand\algorithmicwhile{\textbf{enquanto}}
+\algrenewcommand\algorithmicdo{\textbf{faça}}
+\algrenewcommand\algorithmicelse{\textbf{senão}}
+
+\title{ MS380 - Aula Complementar \\
+Trigonometria}
+\author{Abel Soares Siqueira \\
+Laércio Luís Vendite}
+\date{}
+
+\newcommand{\myframe}[1]{
+\begin{frame}
+ \frametitle{\insertsection \qquad {\small \insertsubsection}}
+#1
+\end{frame}}
+\newcommand{\myframetop}[1]{
+\begin{frame}[t]
+ \frametitle{\insertsection \qquad {\small \insertsubsection}}
+#1
+\end{frame}}
+% \newcommand{\visiblelbl}[1]{\label{#1}{\color{red}{#1}}}
+\newcommand{\visiblelbl}[1]{\label{#1}}
+\newcommand{\spc}{\vspace{0.5 cm}}
+\newcommand{\systemtwo}[1]{$
+  \left\{\begin{array}{rcrcr} #1
+  \end{array}\right.$}
+\newcommand{\systemthree}[1]{$
+  \left\{\begin{array}{rcrcrcr}
+  #1
+  \end{array}\right.$}
+
+\begin{document}
+
+\begin{frame}
+ \titlepage
+\end{frame}
+
+\makesection{Trigonometria}
+\small
+
+\myframetop{
+  \begin{center}
+  \begin{tikzpicture}[scale=0.7]
+    \draw[thick] (0,0) -- node[below] {$b$} (4,0) -- 
+      node[right] {$c$} (4,3) -- node[above] {$a$} (0,0) {};
+    \only<1,3>{\draw (1,0) arc (0:36.9:1) 
+      node[midway,right] {$\alpha$};}
+    \only<2>{\draw (4,2) arc (-90:-90-53.1:1) 
+      node[midway,below] {$\theta$};}
+    \draw (3.5,0) -- (3.5, 0.5) -- (4,0.5) {};
+  \end{tikzpicture}
+  \end{center}
+  \only<1>{\begin{align*}
+    \sin\alpha & = \frac{c}{a} \\
+    \cos\alpha & = \frac{b}{a} \\
+    \tan\alpha & = \frac{c}{b} = \frac{\sin\alpha}{\cos\alpha}
+  \end{align*}}
+  \only<2>{\begin{align*}
+    \theta & = \frac{\pi}{2} - \alpha \\
+    \sin\theta & = \frac{b}{a} \\
+    \cos\theta & = \frac{c}{a} \\
+    \tan\theta & = \frac{b}{c} = \frac{\sin\theta}{\cos\theta}
+  \end{align*}}
+  \only<3>{\begin{align*}
+    \sin(\pi/2-\alpha) & = \cos(\alpha) \\
+    \cos(\pi/2-\alpha) & = \sin(\alpha) \\
+    \tan(\pi/2-\alpha) & = \frac{1}{\tan(\alpha)} \\
+  \end{align*}}
+}
+
+\myframetop{
+  \begin{center}
+  \small
+  \begin{tikzpicture}[domain=-2.1:2.1,scale=0.7]
+    \draw[->] (-3.3,0) -- (3.3,0) node[right] {};
+    \draw[->] (0,-3.3) -- (0,3.3) node[above] {};
+    \draw[color=black] (3,0) arc (0:360:3) {};
+    \draw[color=black,thick] (0,0) -- (3.1,1.13) {};
+    \draw[color=black] (1,0) arc (0:20:1)
+      node[midway,right] {$\alpha$};
+    \draw[color=black,dashed] (2.82,1.03) -- (2.82,0) {};
+    \draw[color=black,dashed] (2.82,1.03) -- (0,1.03) {};
+    \draw[color=red,thick] (0,0) -- (2.82,0)
+      node[below, midway] {$\cos\alpha$};
+    \draw[color=blue,thick] (0,0) -- (0,1.03)
+      node[left, midway] {$\sin\alpha$};
+    \draw[color=gray,thick] (3,-3.3) -- (3,3.3) {};
+    \draw[color=green,thick] (3,0) -- (3,1.09)
+      node[right,midway] {$\tan\alpha$};
+  \end{tikzpicture}
+  \end{center}
+  \vspace{0.91 cm}
+}
+
+\myframetop{
+  \begin{center}
+  \small
+  \begin{tikzpicture}[domain=-2.1:2.1,scale=0.7]
+    \draw[->] (-3.3,0) -- (3.3,0) node[right] {};
+    \draw[->] (0,-3.3) -- (0,3.3) node[above] {};
+    \draw[color=black] (3,0) arc (0:360:3) {};
+    \draw[color=black,thick] (0,0) -- (3.1,1.13) {};
+    \draw[color=black] (1,0) arc (0:20:1)
+      node[midway,right] {$\alpha$};
+    \draw[color=black,dashed] (0,1.03) -- (2.82,1.03) -- (2.82,0) {};
+    \draw[color=red,thick] (0,0) -- (2.82,0)
+      node[below, midway] {$\cos\alpha$};
+    \draw[color=blue,thick] (0,0) -- (0,1.03)
+      node[left, midway] {$\sin\alpha$};
+    \draw[color=gray,thick] (3,-3.3) -- (3,3.3) {};
+    \draw[color=green,thick] (3,0) -- (3,1.09)
+      node[right,midway] {$\tan\alpha$};
+    \draw[thick] (0,0) -- (-3.1,-1.13) {};
+    \draw[color=black,dashed] (0,-1.03) -- (-2.82,-1.03) -- (-2.82,0) {};
+    \draw[color=red,thick] (0,0) -- (-2.82,0) {};
+    \draw[color=blue,thick] (0,0) -- (0,-1.03) {};
+  \end{tikzpicture}
+  \end{center}
+  $$ \sin(\pi+\alpha) = -\sin(\alpha) \quad 
+     \cos(\pi+\alpha) = -\cos(\alpha) \quad
+     \tan(\pi+\alpha) = \tan(\alpha)
+     $$
+}
+
+\myframetop{
+  \begin{center}
+  \small
+  \begin{tikzpicture}[domain=-2.1:2.1,scale=0.7]
+    \draw[->] (-3.3,0) -- (3.3,0) node[right] {};
+    \draw[->] (0,-3.3) -- (0,3.3) node[above] {};
+    \draw[color=black] (3,0) arc (0:360:3) {};
+    \draw[color=black,thick] (0,0) -- (3.1,1.13) {};
+    \draw[color=black] (1,0) arc (0:20:1)
+      node[midway,right] {$\alpha$};
+    \draw[color=black,dashed] (0,1.03) -- (2.82,1.03) -- (2.82,0) {};
+    \draw[color=red,thick] (0,0) -- (2.82,0)
+      node[below, midway] {$\cos\alpha$};
+    \draw[color=blue,thick] (0,0) -- (0,1.03)
+      node[left, midway] {$\sin\alpha$};
+    \draw[color=gray,thick] (3,-3.3) -- (3,3.3) {};
+    \draw[color=green,thick] (3,0) -- (3,1.09)
+      node[right,midway] {$\tan\alpha$};
+    \draw[thick] (0,0) -- (-3.1,1.13) {};
+    \draw[color=black,dashed] (0,1.03) -- (-2.82,1.03) -- (-2.82,0) {};
+    \draw[color=black,dashed] (0,0) -- (3.1,-1.13) {};
+    \draw[color=red,thick] (0,0) -- (-2.82,0) {};
+    \draw[color=green,thick] (3,0) -- (3,-1.09) {};
+  \end{tikzpicture}
+  \end{center}
+  $$ \sin(\pi-\alpha) = \sin(\alpha) \quad 
+     \cos(\pi-\alpha) = -\cos(\alpha) \quad
+     \tan(\pi-\alpha) = -\tan(\alpha)
+     $$
+}
+
+\myframetop{
+  \begin{center}
+  \small
+  \begin{tikzpicture}[domain=-2.1:2.1,scale=0.7]
+    \draw[->] (-3.3,0) -- (3.3,0) node[right] {};
+    \draw[->] (0,-3.3) -- (0,3.3) node[above] {};
+    \draw[color=black] (3,0) arc (0:360:3) {};
+    \draw[color=black,thick] (0,0) -- (3.1,1.13) {};
+    \draw[color=black] (1,0) arc (0:20:1)
+      node[midway,right] {$\alpha$};
+    \draw[color=black,dashed] (0,1.03) -- (2.82,1.03) -- (2.82,0) {};
+    \draw[color=red,thick] (0,0) -- (2.82,0)
+      node[below, midway] {$\cos\alpha$};
+    \draw[color=blue,thick] (0,0) -- (0,1.03)
+      node[left, midway] {$\sin\alpha$};
+    \draw[color=gray,thick] (3,-3.3) -- (3,3.3) {};
+    \draw[color=green,thick] (3,0) -- (3,1.09)
+      node[right,midway] {$\tan\alpha$};
+    \draw[thick] (0,0) -- (-1.13,3.1) {};
+    \draw[color=black,dashed] (-1.03,0) -- (-1.03,2.82) -- (0,2.82) {};
+    \draw[color=blue,thick] (0,2.82) -- (-1.03,2.82) {};
+    \draw[color=red,thick] (-1.03,0) -- (-1.03,2.82) {};
+  \end{tikzpicture}
+  \end{center}
+  $$ \sin(\pi/2+\alpha) = \cos(\alpha) \quad 
+     \cos(\pi/2+\alpha) = -\sin(\alpha) \quad
+     \tan(\pi/2+\alpha) = -\frac{1}{\tan(\alpha)}
+     $$
+}
+
+\myframe{
+  \begin{align*}
+    \sin(a+b) & = \sin(a)\cos(b) + \sin(b)\cos(a) \\
+    \cos(a+b) & = \cos(a)\cos(b) - \sin(a)\sin(b) \\
+    \tan(a+b) & = \frac{\tan(a) + \tan(b)}{1 - \tan(a)\tan(b)}
+  \end{align*}
+}
+
+\end{document}

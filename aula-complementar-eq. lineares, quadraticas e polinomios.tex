@@ -1,0 +1,286 @@
+\documentclass[10 pt]{beamer}
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+\usepackage[utf8]{inputenc}
+\usepackage{framed}
+%\usepackage[dvipsnames]{color}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{epsfig}
+\usepackage{abel}
+\usepackage{tikz}
+\usepackage{amssymb, amsmath, amsfonts}
+\bibliographystyle{plain}
+%\topmargin		0 cm
+%\hoffset		0 cm
+%\voffset		0 cm
+%\evensidemargin		0 cm
+%\oddsidemargin		0 cm
+%\setlength{\textwidth}{16 cm}
+%\setlength{\textheight}{21 cm}
+
+\colorlet{mybasecolor}[rgb]{teal}
+
+\colorlet{mydarkestcolor}[rgb]{mybasecolor!20!black}
+\colorlet{mydarkcolor}[rgb]{mybasecolor!60!black}
+\colorlet{mynormalcolor}[rgb]{mybasecolor!90!black}
+\colorlet{mylightcolor}[rgb]{mybasecolor!10!white}
+
+\colorlet{mysidebarcolor}[rgb]{mydarkcolor}
+\colorlet{mylogobg}[rgb]{mylightcolor}
+\colorlet{mylogofg}[rgb]{mydarkestcolor}
+\colorlet{mysidebarauthor}[rgb]{mylightcolor}
+\colorlet{mysidebartitle}[rgb]{mylightcolor}
+\colorlet{mysidebarsecfg}[rgb]{mydarkestcolor}
+\colorlet{mysidebarsecbg}[rgb]{mylightcolor}
+\colorlet{mysidebarsubsecfg}[rgb]{mydarkestcolor}
+\colorlet{mysidebarsubsecbg}[rgb]{mylightcolor}
+\colorlet{myframetitlefg}[rgb]{mylightcolor}
+\colorlet{myframetitlebg}[rgb]{mydarkcolor}
+\colorlet{myitemcolor}[rgb]{mynormalcolor}
+\colorlet{myfontcolor}[rgb]{mydarkestcolor}
+\colorlet{mytitlefg}[rgb]{mylightcolor}
+\colorlet{mytitlebg}[rgb]{mydarkcolor}
+\colorlet{myauthorfg}[rgb]{mylightcolor}
+\colorlet{myauthorbg}[rgb]{mydarkcolor}
+
+\useinnertheme{rounded}
+\setbeamercolor{structure}{fg = myitemcolor}
+%\useoutertheme[height=1 cm,width=1.6 cm]{sidebar}
+\useoutertheme{smoothtree}
+
+\setbeamercolor{palette secondary}{bg=mylogobg,fg=mylogofg} %cor do logo
+\setbeamercolor{sidebar}{bg=mysidebarcolor} %Background do sidebar
+\setbeamercolor{palette sidebar tertiary}{fg = mysidebarauthor} %Autor no sidebar
+\setbeamercolor{palette sidebar quaternary}{fg = mysidebartitle} %Titulo no sidebar
+\setbeamercolor{section in sidebar}{fg = mysidebarsecfg,bg = mysidebarsecbg} %A cor eh a media de fg e bg
+\setbeamercolor{subsection in sidebar}{fg = mysidebarsubsecfg,bg = mysidebarsubsecbg} %A cor eh a media de fg e bg
+\setbeamercolor{frametitle}{fg = myframetitlefg, bg = myframetitlebg} 
+\setbeamercolor{title}{bg = mytitlebg,fg = mytitlefg}
+\setbeamerfont{title}{series = \bf}
+\setbeamercolor{author}{bg = myauthorbg,fg = myauthorfg}
+\setbeamerfont{author}{series = \it}
+\setbeamercolor{normal text}{bg = white, fg = myfontcolor}
+%\setbeamercolor{normal text}{bg = black, fg = white}
+%\setbeamerfont{normal text}{family=serif}
+\usefonttheme[onlymath]{serif}
+%\logo{\includegraphics[scale=0.35]{logo.png}}
+%\logo{$\min f(x)$}
+
+\newcommand{\makesection}[1]{\section[#1]{#1}}
+\newcommand{\makesubsection}[1]{\subsection[#1]{#1}}
+
+\algrenewcommand\algorithmicif{\textbf{se}}
+\algrenewcommand\algorithmicthen{\textbf{então}}
+\algrenewcommand\algorithmicend{\textbf{fim do}}
+\algrenewcommand\algorithmicwhile{\textbf{enquanto}}
+\algrenewcommand\algorithmicdo{\textbf{faça}}
+\algrenewcommand\algorithmicelse{\textbf{senão}}
+
+\title{ MS380 - Aula Complementar \\
+Equações Lineares, Quadráticas e Polinômios}
+\author{Abel Soares Siqueira \\
+Laércio Luís Vendite}
+\date{}
+
+\newcommand{\myframe}[1]{
+\begin{frame}
+ \frametitle{\insertsection \qquad {\small \insertsubsection}}
+#1
+\end{frame}}
+\newcommand{\myframetop}[1]{
+\begin{frame}[t]
+ \frametitle{\insertsection \qquad {\small \insertsubsection}}
+#1
+\end{frame}}
+% \newcommand{\visiblelbl}[1]{\label{#1}{\color{red}{#1}}}
+\newcommand{\visiblelbl}[1]{\label{#1}}
+\newcommand{\spc}{\vspace{0.5 cm}}
+\newcommand{\systemtwo}[1]{$
+  \left\{\begin{array}{rcrcr} #1
+  \end{array}\right.$}
+\newcommand{\systemthree}[1]{$
+  \left\{\begin{array}{rcrcrcr}
+  #1
+  \end{array}\right.$}
+
+\begin{document}
+
+\begin{frame}
+ \titlepage
+\end{frame}
+
+\makesection{Equações Lineares}
+
+\myframe{
+  $$y = mx + b, \qquad m \neq 0$$
+  \begin{center}
+  \begin{tikzpicture}[domain=-0.1:5,scale=0.7]
+    \draw[very thin, color=gray] (-0.1, -0.1) grid (4.9, 4.9);
+    \draw[->] (-0.2,0) -- (5.2,0) node[right] {$x$};
+    \draw[->] (0,-0.2) -- (0,5.2) node[above] {$y$};
+    \draw[color=red] plot function{x/2+1}
+      node[above] {$y = mx + b$};
+    \node[color=red,left] (b) at (0,1) {$b$};
+    \pause
+    \draw[color=blue,dashed] 
+      (2,0) node[below] {$x_0$} -- (2,2) -- (0,2) node[left] {$y_0$};
+    \draw[color=blue,dashed] 
+      (4,0) node[below] {$x_1$} -- (4,3) -- (0,3) node[left] {$y_1$};
+    \pause
+    \draw[color=blue]
+      (2,2) -- (4,2) node[midway,below] {$x_1-x_0$} -- (4,3)node[midway,right] {$y_1-y_0$};
+    \draw[color=blue] (2,2) + (0.6,0) arc (0:26:0.6);
+  \end{tikzpicture}
+  \end{center}
+  \onslide<4->{
+  $$m = \frac{y_1 - y_0}{x_1 - x_0}, \qquad \qquad
+  y - y_0 = m(x - x_0).$$}
+}
+
+\makesection{Equações Quadráticas}
+
+\myframe {
+  $$ax^2 + bx + c = 0, \qquad a \neq 0$$
+  \begin{center}
+  \begin{tikzpicture}[domain=-0.5:3]
+    \draw[very thin, color=gray] (-0.8, -1.4) grid(3.5, 3.5);
+    \draw[->] (-0.9,0) -- (3.7,0) node[right] {$x$};
+    \draw[->] (0,-1.5) -- (0,3.7) node[above] {$y$};
+    \draw[color=red] plot (\x, \x*\x-2*\x-1/5)
+      node[right] {$y = ax^2 + bx + c$};
+    \draw[color=red] (0.1, -1/5) -- (-0.1, -1/5)
+      node[left] {$c$};
+  \end{tikzpicture}
+  \end{center}
+}
+
+\makesubsection{Discriminante}
+
+\myframe {
+  $$ax^2 + bx + c = 0, \qquad a \neq 0$$
+  \pause
+  $$ \Delta = b^2 - 4ac $$
+  \pause
+  \begin{description}
+    \item<3->[$\Delta > 0$] Duas soluções distintas.
+      $$ x = \frac{-b \pm \sqrt{\Delta}}{2a}. $$
+    \item<4->[$\Delta = 0$] Uma solução.
+      $$ x = \frac{-b}{2a}. $$
+    \item<5->[$\Delta < 0$] Não existe solução real.
+  \end{description}
+}
+
+\myframe {
+  $$ax^2 + bx + c = 0, \qquad a \neq 0$$
+  \begin{center}
+    Vértice: $(x_v, y_v)$
+  \end{center}
+  $$ x_v = \frac{-b}{2a} \qquad y_v = \frac{-\Delta}{4a} $$
+  \pause
+  \begin{center}
+    Concavidade: \spc \\
+    \begin{tikzpicture}[domain=-2:2,scale=0.5]
+      \draw[color=red] plot (\x, \x*\x);
+      \node[color=red] at (0,2) {$a > 0$};
+    \end{tikzpicture}\hspace{1 cm}
+    \begin{tikzpicture}[domain=-2:2,scale=0.5]
+      \draw[color=red] plot (\x, -\x*\x);
+      \node[color=red] at (0,-2) {$a < 0$};
+    \end{tikzpicture}
+  \end{center}
+}
+
+\makesubsection{Resumo visual}
+
+\myframe {
+  $$ \Delta > 0 $$
+  \spc
+  \begin{center}
+    \begin{tikzpicture}[domain=-2.09:2.09,scale=0.5]
+      \draw[->] (-2,1) -- (2,1) node[right] {$x$};
+      \draw[color=red] plot (\x, \x*\x);
+      \node[color=red] at (0,2) {$a > 0$};
+    \end{tikzpicture}\hspace{1 cm}
+    \begin{tikzpicture}[domain=-2.09:2.09,scale=0.5]
+      \draw[->] (-2,-1) -- (2,-1) node[right] {$x$};
+      \draw[color=red] plot (\x, -\x*\x);
+      \node[color=red] at (0,-2) {$a < 0$};
+    \end{tikzpicture}
+  \end{center}
+}
+
+\myframe {
+  $$ \Delta = 0 $$
+  \spc
+  \begin{center}
+    \begin{tikzpicture}[domain=-2:2,scale=0.5]
+      \draw[->] (-2,0) -- (2,0) node[right] {$x$};
+      \draw[color=red] plot (\x, \x*\x);
+      \node[color=red] at (0,2) {$a > 0$};
+    \end{tikzpicture}\hspace{1 cm}
+    \begin{tikzpicture}[domain=-2:2,scale=0.5]
+      \draw[->] (-2,0) -- (2,0) node[right] {$x$};
+      \draw[color=red] plot (\x, -\x*\x);
+      \node[color=red] at (0,-2) {$a < 0$};
+    \end{tikzpicture}
+  \end{center}
+}
+
+\myframe {
+  $$ \Delta < 0 $$
+  \spc
+  \begin{center}
+    \begin{tikzpicture}[domain=-1.73:1.73,scale=0.5]
+      \draw[->] (-2,-1) -- (2,-1) node[right] {$x$};
+      \draw[color=red] plot (\x, \x*\x);
+      \node[color=red] at (0,2) {$a > 0$};
+    \end{tikzpicture}\hspace{1 cm}
+    \begin{tikzpicture}[domain=-1.73:1.73,scale=0.5]
+      \draw[->] (-2,1) -- (2,1) node[right] {$x$};
+      \draw[color=red] plot (\x, -\x*\x);
+      \node[color=red] at (0,-2) {$a < 0$};
+    \end{tikzpicture}
+  \end{center}
+}
+
+\myframe {
+  $$ y = ax^2 + bx + c $$
+  \pause
+  \begin{center}
+  Se $\Delta \geq 0$, as raízes são $x_0$ e $x_1$.
+  \end{center}
+  \pause
+  \begin{align*}
+    \onslide<3->{ y & = a(x - x_0)(x - x_1) } \\
+    \onslide<4->{ y & = ax^2 - ax(x_0+x_1) + ax_0x_1 }
+  \end{align*}
+  \onslide<5->{
+  $$ x_0 + x_1 = -\frac{b}{a} \qquad x_0x_1 = \frac{c}{a}. $$}
+}
+
+\makesection{Polinômios}
+
+\myframe {
+    $$ p_n(x) = a_0 + a_1x + a_2x^2 + \dots + a_nx^n. $$
+  \begin{itemize}
+    \item Se o grau é ímpar, existe ao menos uma raiz real.
+    \item Se uma raiz é complexa, o conjugado dessa raiz é outra raiz.
+    \item Se $x_1, x_2, \dots, x_n$ são as raízes (podendo ser complexas),
+      $$ p_n(x) = a_n(x - x_1)(x - x_2)\dots(x - x_n). $$
+  \end{itemize}
+}
+
+\makesubsection{Equações de Girard}
+
+\myframe {
+  $$ax^3 + bx^2 + cx + d = 0$$
+  \spc\pause
+  $$ x_1 + x_2 + x_3 = \frac{-b}{a} \qquad
+     x_1x_2 + x_1x_3 + x_2x_3 = \frac{c}{a} \qquad
+     x_1x_2x_3 = -\frac{d}{a} $$
+}
+
+\end{document}

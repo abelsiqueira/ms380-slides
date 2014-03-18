@@ -1,0 +1,428 @@
+\documentclass[10 pt]{beamer}
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+\usepackage[utf8]{inputenc}
+\usepackage{framed}
+%\usepackage[dvipsnames]{color}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{epsfig}
+\usepackage{abel}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usetikzlibrary{plotmarks}
+\usepackage{amssymb, amsmath, amsfonts}
+\bibliographystyle{plain}
+%\topmargin		0 cm
+%\hoffset		0 cm
+%\voffset		0 cm
+%\evensidemargin		0 cm
+%\oddsidemargin		0 cm
+%\setlength{\textwidth}{16 cm}
+%\setlength{\textheight}{21 cm}
+
+\colorlet{mybasecolor}[rgb]{teal}
+
+\colorlet{mydarkestcolor}[rgb]{mybasecolor!20!black}
+\colorlet{mydarkcolor}[rgb]{mybasecolor!60!black}
+\colorlet{mynormalcolor}[rgb]{mybasecolor!90!black}
+\colorlet{mylightcolor}[rgb]{mybasecolor!10!white}
+
+\colorlet{mysidebarcolor}[rgb]{mydarkcolor}
+\colorlet{mylogobg}[rgb]{mylightcolor}
+\colorlet{mylogofg}[rgb]{mydarkestcolor}
+\colorlet{mysidebarauthor}[rgb]{mylightcolor}
+\colorlet{mysidebartitle}[rgb]{mylightcolor}
+\colorlet{mysidebarsecfg}[rgb]{mydarkestcolor}
+\colorlet{mysidebarsecbg}[rgb]{mylightcolor}
+\colorlet{mysidebarsubsecfg}[rgb]{mydarkestcolor}
+\colorlet{mysidebarsubsecbg}[rgb]{mylightcolor}
+\colorlet{myframetitlefg}[rgb]{mylightcolor}
+\colorlet{myframetitlebg}[rgb]{mydarkcolor}
+\colorlet{myitemcolor}[rgb]{mynormalcolor}
+\colorlet{myfontcolor}[rgb]{mydarkestcolor}
+\colorlet{mytitlefg}[rgb]{mylightcolor}
+\colorlet{mytitlebg}[rgb]{mydarkcolor}
+\colorlet{myauthorfg}[rgb]{mylightcolor}
+\colorlet{myauthorbg}[rgb]{mydarkcolor}
+
+\useinnertheme{rounded}
+\setbeamercolor{structure}{fg = myitemcolor}
+%\useoutertheme[height=1 cm,width=1.6 cm]{sidebar}
+\useoutertheme{smoothtree}
+
+\setbeamercolor{palette secondary}{bg=mylogobg,fg=mylogofg} %cor do logo
+\setbeamercolor{sidebar}{bg=mysidebarcolor} %Background do sidebar
+\setbeamercolor{palette sidebar tertiary}{fg = mysidebarauthor} %Autor no sidebar
+\setbeamercolor{palette sidebar quaternary}{fg = mysidebartitle} %Titulo no sidebar
+\setbeamercolor{section in sidebar}{fg = mysidebarsecfg,bg = mysidebarsecbg} %A cor eh a media de fg e bg
+\setbeamercolor{subsection in sidebar}{fg = mysidebarsubsecfg,bg = mysidebarsubsecbg} %A cor eh a media de fg e bg
+\setbeamercolor{frametitle}{fg = myframetitlefg, bg = myframetitlebg} 
+\setbeamercolor{title}{bg = mytitlebg,fg = mytitlefg}
+\setbeamerfont{title}{series = \bf}
+\setbeamercolor{author}{bg = myauthorbg,fg = myauthorfg}
+\setbeamerfont{author}{series = \it}
+\setbeamercolor{normal text}{bg = white, fg = myfontcolor}
+%\setbeamercolor{normal text}{bg = black, fg = white}
+%\setbeamerfont{normal text}{family=serif}
+\usefonttheme[onlymath]{serif}
+%\logo{\includegraphics[scale=0.35]{logo.png}}
+%\logo{$\min f(x)$}
+
+\newcommand{\makesection}[1]{\section[#1]{#1}}
+\newcommand{\makesubsection}[1]{\subsection[#1]{#1}}
+\newcommand{\tikzcircle}{arc (0:360:0.01)}
+
+\algrenewcommand\algorithmicif{\textbf{se}}
+\algrenewcommand\algorithmicthen{\textbf{então}}
+\algrenewcommand\algorithmicend{\textbf{fim do}}
+\algrenewcommand\algorithmicwhile{\textbf{enquanto}}
+\algrenewcommand\algorithmicdo{\textbf{faça}}
+\algrenewcommand\algorithmicelse{\textbf{senão}}
+
+\title{ MS380 - Aula 6 \\
+Máximos, Mínimos e Gráficos}
+\author{Abel Soares Siqueira \\
+Laércio Luís Vendite}
+\date{}
+
+\newcommand{\myframe}[1]{
+\begin{frame}
+ \frametitle{\insertsection \qquad {\small \insertsubsection}}
+#1
+\end{frame}}
+\newcommand{\myframetop}[1]{
+\begin{frame}[t]
+ \frametitle{\insertsection \qquad {\small \insertsubsection}}
+#1
+\end{frame}}
+% \newcommand{\visiblelbl}[1]{\label{#1}{\color{red}{#1}}}
+\newcommand{\visiblelbl}[1]{\label{#1}}
+\newcommand{\spc}{\vspace{0.5 cm}}
+\newcommand{\systemtwo}[1]{$
+  \left\{\begin{array}{rcrcr} #1
+  \end{array}\right.$}
+\newcommand{\systemthree}[1]{$
+  \left\{\begin{array}{rcrcrcr}
+  #1
+  \end{array}\right.$}
+
+\newcommand{\limninf}{\lim_{n\rightarrow\infty}}
+\newcommand{\limx}[1]{\lim_{x\rightarrow{#1}}}
+\newcommand{\limh}[1]{\lim_{h\rightarrow{#1}}}
+\newcommand{\fundef}[1]{\left\{\begin{array}{ll}{#1}\end{array}\right.}
+
+\begin{document}
+
+\begin{frame}
+ \titlepage
+\end{frame}
+
+\makesection{Interpretação das Derivadas}
+
+\myframe {
+  Como visto, a derivada pode ser interpretada como a inclinação
+  da reta tangente à função no ponto onde é calculada.
+
+  A derivada também indica se a função está crescendo ou decrescendo
+  naquele ponto (ou intervalo).
+
+  Sendo assim, uma derivada nula, ou seja, uma reta horizontal, é um indicativo 
+  que naquele ponto pode ocorrer um máximo ou um mínimo.
+
+  \begin{center}
+    \begin{tikzpicture}[domain=-1:1]
+      \draw[blue] plot (\x,{\x*\x});
+      \draw[red] (-1,0) -- (1,0);
+    \end{tikzpicture}
+    \hspace{1 cm}
+    \begin{tikzpicture}[domain=-1:1]
+      \draw[blue] plot (\x,{-\x*\x});
+      \draw[red] (-1,0) -- (1,0);
+    \end{tikzpicture}
+  \end{center}
+}
+
+\myframe {
+  Uma maneira de encontrar o máximo ou mínimo de uma função então é
+  procurar pelos pontos onde a derivada é nula.
+
+  Note, no entanto, que isso não é suficiente. Pois um ponto com a
+  derivada nula pode ser um máximo, um mínimo, ou nenhum dos dois.
+  
+  $$ f(x) = x^3, \qquad f'(x) = 3x^2, \qquad f'(0) = 0 $$
+  \begin{center}
+    \begin{tikzpicture}[domain=-1:1]
+      \draw[blue] plot (\x,{\x*\x*\x});
+      \draw[red] (-1,0) -- (1,0);
+    \end{tikzpicture}
+  \end{center}
+}
+
+\myframe {
+  A segunda derivada de uma função indica a concavidade de uma função.
+
+  Se a segunda derivada é positiva no ponto, a concavidade é para cima.
+  Se a segunda derivada é negativa, a concavidade é para baixo.
+
+  Com a segunda derivada, podemos verificar se o ponto que encontramos
+  é um ponto de máximo ou mínimo da função.
+  Note que ainda existe a possibilidade de não ser possível identificar
+  que tipo de ponto temos.
+
+  \begin{itemize}
+    \item Se $f'(\barra{x}) = 0$ e $f''(\barra{x}) > 0$, então o ponto
+      é um minimizador da função $f$.
+    \item Se $f'(\barra{x}) = 0$ e $f''(\barra{x}) < 0$, então o ponto
+      é um maximizador da função $f$.
+  \end{itemize}
+}
+
+\subsection{Exemplos}
+
+\myframe {
+  Considere a função $f(x) = ax^2 + bx + c$, com $a\neq 0$.
+  A primeira e segunda derivadas dessa função são
+  $$ f'(x) = 2ax + b \qquad \mbox{e} \qquad
+     f''(x) = 2a. $$
+  Veja que a concavidade de $f$ no ponto $x$ é $2a$.
+  A concavidade é constante, é tem o mesmo sinal do coeficiente
+  quadrático, como já esperávamos.
+
+  Fazendo
+  $$ f'(\barra{x}) = 0, $$
+  temos
+  $$ 2a\barra{x} + b = 0 \qquad \Longrightarrow \qquad
+    \barra{x} = -\frac{b}{2a} $$
+  Se $a > 0$, esse ponto é um minimizador, e se $a < 0$,
+  esse ponto é um maximizador.
+}
+
+\myframe {
+  {\bf Resolva:} Um tipógrafo quer imprimir um boletim com
+  $72 \mbox{cm}^2$ de texto impresso, com margens inferior
+  e superior de $6$ cm e laterais de $3$ cm. Quais as dimensões
+  das folhas para conseguir a maior economia?
+
+  \begin{minipage}{3.5 cm}
+  \begin{tikzpicture}[scale=0.7]
+    \draw (0,0) rectangle (4,5);
+    \draw[fill=yellow] (0.6,0.8) rectangle (3.3,4.2);
+    \draw[<->] (0,5/2) -- node[below] {$3$} (0.6,5/2);
+    \draw[<->] (4/2,0) -- node[left] {$6$} (4/2,0.8);
+    \draw[<->,blue] (0.6,4.4) -- node[above] {$x$} (3.3,4.4);
+    \draw[<->,blue] (3.5,0.8) -- node[right] {$y$} (3.5,4.2);
+  \end{tikzpicture}
+  \end{minipage}
+  \begin{minipage}{6 cm}
+    $$A = (x+3+3)(y+6+6) = (x+6)(y+12) $$
+    $$xy = 72 \Rightarrow y = \dfrac{72}{x}$$
+    \begin{align*}
+      A(x) & = (x+6)(\frac{72}{x} + 12) = 144 + \frac{432}{x} + 12x \\
+      A'(x) & = -\frac{432}{x^2} + 12
+    \end{align*}
+  \end{minipage}
+  $$ A'(\barra{x}) = 0 \Rightarrow 12 = \frac{432}{x^2} \Rightarrow
+    x = \sqrt{\frac{432}{12}} = 6 \Rightarrow y = 12 $$
+    A folha deve ter $12 \mbox{cm}\times 24\mbox{cm}$.
+}
+
+\subsection{Assíntotas}
+
+\myframe {
+  As assíntotas horizontais de uma função são as retas que indicam
+  para onde a função tende quando converge quando $x\rightarrow\infty$,
+  e para $x\rightarrow-\infty$.
+
+  Exemplo: $f(x) = \dfrac{x+1}{x}$.
+  $$ \limx{+\infty}\frac{x+1}{x} = 1 \quad
+      \Longrightarrow \quad \mbox{$f$ tem uma assíntota horizontal em } 
+        y=1, x\rightarrow+\infty$$
+  $$ \limx{-\infty}\frac{x+1}{x} = 1 \quad
+      \Longrightarrow \quad \mbox{$f$ tem uma assíntota horizontal em } 
+        y=1, x\rightarrow-\infty$$
+}
+
+\myframe {
+  As assíntotas verticais são pontos onde acontece ao menos um dos seguintes:
+  $$ \limx{a+} = \pm\infty \qquad \limx{a-} = \pm\infty $$
+  Exemplo: $f(x) = \dfrac{x+1}{x}$.
+  $$ \limx{0+}\frac{x+1}{x} = +\infty $$
+    assíntota vertical em $x = 0$, com $f(x)\rightarrow+\infty$, pela direita.
+  $$ \limx{0-}\frac{x+1}{x} = -\infty $$
+    assíntota vertical em $x = 0$, com $f(x)\rightarrow-\infty$, pela esqueda.
+}
+
+\myframe {
+  As assíntotas inclinadas são retas $y = ax+b$ tais que
+  $$ \limx{\infty}[f(x) - ax-b] = 0, $$
+  ou similar para $-\infty$.
+
+  Todas as funções racionais com o grau do polinômio do numerador um a mais
+  que o grau do polinômio do denominador tem assíntotas inclinadas.
+  Nesse caso, para encontrar a assíntota basta fazer divisão de polinômios.
+}
+
+\myframe {
+  Exemplo: $f(x) = \dfrac{x^2}{x+1}$. Fazendo a divisão, temos
+  $$ f(x) = x-1 + \frac{1}{x+1} $$
+  A assíntota é $y = x-1$. Basta ver que
+  $$ \limx{\infty}[f(x)-(x-1)] = \limx{\infty}\frac{1}{x+1} = 0 $$
+  Similar para $x \rightarrow-\infty$.
+}
+
+\myframe {
+  Outra maneira de encontrar a assíntota inclinada é calcular o limite
+  da derivada para encontrar a inclinação, e o limite da diferença
+  entre a função e a reta com essa inclinação para encontrar o termo
+  independente.
+}
+
+\myframe {
+  Exemplo: $f(x) = \sqrt{x^2 + 2x + 2}$. Inicialmente, note que o domínio
+  máximo de $f$ é $\R$ (por quê?).
+  $$ f'(x) = \frac{2x + 2}{2\sqrt{x^2 + 2x + 2}} = \frac{x+1}{\sqrt{x^2+2x+2}} $$
+  $$ \limx{+\infty}f'(x) = 
+    \limx{+\infty}\frac{1+\frac{1}{x}}{\sqrt{1+\frac{2}{x}+\frac{2}{x^2}}} = 1$$
+  Então $a = 1$. Agora fazemos o limite de $f(x) - ax$.
+}
+
+\myframe {
+  \begin{align*}
+    \limx{+\infty} [\sqrt{x^2+2x+2} - x] 
+      & = \limx{+\infty} \frac{2x+2}{\sqrt{x^2+2x+2}+x} \\
+      & = \limx{+\infty} \frac{2+\frac{2}{x}} 
+          {\sqrt{1 + \frac{2}{x} + \frac{2}{x^2}} + 1} \\
+      & = \frac{2}{\sqrt{1}+1} = 1
+  \end{align*}
+  Então $b = 1$. Portanto, a assíntota é $y = x + 1$.
+}
+
+\subsection{Simetria}
+
+\myframe {
+  Se $f(-x) = f(x)$, a função $f$ é dita par, e seu gráfico é simétrico
+  pelo eixo $y$.
+  
+  {\bf Exemplo:} $f(x) = x^2, f(x) = \dfrac{x^2}{x^2 + 1}, f(x) = \cos(x)$.
+  \spc
+
+  Se $f(-x) = -f(x)$, a função $f$ é dita ímpar, e seu gráfico é simétrico
+  pela origem.
+
+  {\bf Exemplo:} $f(x) = x^3, f(x) = \dfrac{x}{x^2 + 1}, f(x) = \sin(x)$.
+  \spc
+
+  Se $f(x+T) = f(x)$, então a função $f$ é dita periódica, e o seu
+  período é o menor valor $T$ que satisfaz a relação.
+  Seu gráfico se repete a cada intervalo de tamanho $T$.
+
+  {\bf Exemplo:} $f(x) = \tan(x), f(x) = \sin(x)\cos^2(x)$.
+}
+
+\subsection{Gráficos}
+
+\myframe {
+  Para fazer o gráfico de uma função, procure seguir os seguintes pontos:
+  \begin{itemize}
+    \item Domínio máximo
+    \item Intersecções nos eixos
+    \item Simetria
+    \item Assíntotas
+    \item Pontos críticos
+    \item Intervalos de crescimento
+    \item Concavidade
+  \end{itemize}
+}
+
+\myframe {
+  {\bf Exemplo: } $f(x) = xe^x$, $f'(x) = e^x(1+x)$, $f''(x) = e^x(2+x)$.
+  \begin{itemize}
+    \item O domínio de $f$ é $\R$.
+    \item $f(x) = 0 \Rightarrow x = 0$, e $f(0) = 0$.
+    \item $f$ não tem nenhuma simetria.
+    \item $\displaystyle \limx{\infty}f(x) = +\infty$ e
+      $$ \displaystyle \limx{-\infty}xe^x =
+        \limx{-\infty}\frac{x}{e^{-x}} \overset{L'H}{=}
+        \limx{-\infty}\frac{1}{-e^{-x}} =
+        \limx{-\infty}-e^x = 0 $$
+     $$ \limx{\infty} f'(x) = +\infty $$
+     Só tem uma assíntota horizontal para $x\rightarrow-\infty$, que
+      será o eixo $x$.
+    \item $f'(x) = 0 \Rightarrow x = -1$, e $f''(-1) = e^{-1} > 0$, então
+      $f$ tem um minimizador em $x=-1$. $f(-1) = -e^{-1}$.
+    \item $f'(x) = e^x(1+x)$. $e^x$ é sempre positivo, então o sinal depende
+      apenas de $(1+x)$. Então se $x > -1$, $f'(x) > 0$, e $f$ é crescente,
+      e se $x < -1$, $f'(x) < 0$, e $f$ é decrescente.
+  \end{itemize}
+}
+
+\myframe {
+  \begin{itemize}
+    \item $f''(x) = e^x(2+x)$. Pelo mesmo argumento anterior,
+      se $x > -2$, $f''(x) > 0$, e $f$ é côncava para cima, e se
+      $x < -2$, $f''(x) < 0$, e $f$ é côncava para baixo. Note que
+      $x = -2$ é um ponto de inflexão. $f(-2) = -2e^{-2}$.
+  \end{itemize}
+  \begin{center}
+  \begin{tikzpicture}[domain=-4:1]
+    \draw[->] (-4.1,0) -- (1.1,0) node[right] {$x$};
+    \draw[->] (0,-1.1) -- (0,3.1) node[left] {$y$};
+    \draw[blue] plot (\x, {\x*exp(\x)});
+    \draw (-1,0.05) node[above] {$-1$} -- (-1,-0.05);
+    \draw (-2,0.05) node[above] {$-2$} -- (-2,-0.05);
+    \draw (-0.05,-1/2.72) -- (0.05,-1/2.72) node[right] {$-e^{-1}$};
+    \draw[dashed] (-1,0) -- (-1,-1/2.72) -- (0,-1/2.72);
+  \end{tikzpicture}
+  \end{center}
+}
+
+\myframe {
+  {\bf Exemplo: } $f(x) = \sqrt{x^2 + 1}$, $f'(x) = \dfrac{x}{\sqrt{x^2 + 1}}$,
+    $f''(x) = \dfrac{1}{(x^2 + 1)^{3/2}}$.
+  \begin{itemize}
+    \item O domínio máximo de $f$ é $\R$.
+    \item Não existe interseção com o eixo $x$, e a intersecção com o eixo $y$ é
+      $f(0) = 1$.
+    \item $f(-x) = \sqrt{(-x)^2 + 1} = \sqrt{x^2 + 1} = f(x)$. Então $f$ é
+      par, e seu gráfico é simétrico em relação ao eixo $y$. Sendo assim, 
+      precisamos analisar somente a parte positiva do gráfico.
+    \item $\displaystyle\limx{+\infty} f(x) = +\infty$, então o gráfico não tem
+      assíntotas horizontais. 
+      $$\limx{+\infty} f'(x) = \limx{+\infty}\frac{1}{\sqrt{1 + \frac{1}{x^2}}}
+        = 1$$
+      Então o gráfico tem uma assíntota inclinada com inclinação $a = 1$.
+  \end{itemize}
+}
+
+\myframe {
+  \begin{align*}
+    \limx{\infty} [f(x) - x] & = \limx{\infty} [\sqrt{x^2 + 1} - x] \\
+      & = \limx{\infty} \frac{x^2+1-x^2}{\sqrt{x^2+1} + x} \\
+      & = \limx{\infty} \frac{1}{\sqrt{x^2 + 1}+x} = 0
+  \end{align*}
+    Então a assíntota é $y = x$.
+  \begin{itemize}
+    \item $f'(x) = 0 \Rightarrow x = 0$. $f''(0) = 1 > 0$, então
+      $x = 0$ é um minimizador de $f$, e $f(0) = 1$.
+    \item Para $x > 0$, $f(x) > 0$. Então $f$ é crescente.
+    \item $f(x) > 0$ para todo $x \in \R$. Então a concavidade é sempre para cima.
+  \end{itemize}
+}
+
+\myframe {
+  \begin{center}
+  \begin{tikzpicture}[domain=-8:8,scale=0.5]
+    \draw[->] (-8.1,0) -- (8.1,0);
+    \draw[->] (0,-0.1) -- (0,9.1);
+    \draw[blue] plot (\x, {sqrt(\x*\x + 1)});
+    \draw[domain=2:8,gray,dashed] plot (\x,\x);
+    \draw[domain=-2:-8,gray,dashed] plot (\x,-\x);
+    \draw (-0.1,1) -- (0.1,1) node[below left] {$1$};
+  \end{tikzpicture}
+  \end{center}
+}
+
+\end{document}

@@ -1,0 +1,649 @@
+\documentclass[10 pt]{beamer}
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+\usepackage[utf8]{inputenc}
+\usepackage{framed}
+%\usepackage[dvipsnames]{color}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{epsfig}
+\usepackage{abel}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usetikzlibrary{plotmarks}
+\usepackage{amssymb, amsmath, amsfonts}
+\bibliographystyle{plain}
+%\topmargin		0 cm
+%\hoffset		0 cm
+%\voffset		0 cm
+%\evensidemargin		0 cm
+%\oddsidemargin		0 cm
+%\setlength{\textwidth}{16 cm}
+%\setlength{\textheight}{21 cm}
+
+\colorlet{mybasecolor}[rgb]{teal}
+
+\colorlet{mydarkestcolor}[rgb]{mybasecolor!20!black}
+\colorlet{mydarkcolor}[rgb]{mybasecolor!60!black}
+\colorlet{mynormalcolor}[rgb]{mybasecolor!90!black}
+\colorlet{mylightcolor}[rgb]{mybasecolor!10!white}
+
+\colorlet{mysidebarcolor}[rgb]{mydarkcolor}
+\colorlet{mylogobg}[rgb]{mylightcolor}
+\colorlet{mylogofg}[rgb]{mydarkestcolor}
+\colorlet{mysidebarauthor}[rgb]{mylightcolor}
+\colorlet{mysidebartitle}[rgb]{mylightcolor}
+\colorlet{mysidebarsecfg}[rgb]{mydarkestcolor}
+\colorlet{mysidebarsecbg}[rgb]{mylightcolor}
+\colorlet{mysidebarsubsecfg}[rgb]{mydarkestcolor}
+\colorlet{mysidebarsubsecbg}[rgb]{mylightcolor}
+\colorlet{myframetitlefg}[rgb]{mylightcolor}
+\colorlet{myframetitlebg}[rgb]{mydarkcolor}
+\colorlet{myitemcolor}[rgb]{mynormalcolor}
+\colorlet{myfontcolor}[rgb]{mydarkestcolor}
+\colorlet{mytitlefg}[rgb]{mylightcolor}
+\colorlet{mytitlebg}[rgb]{mydarkcolor}
+\colorlet{myauthorfg}[rgb]{mylightcolor}
+\colorlet{myauthorbg}[rgb]{mydarkcolor}
+
+\useinnertheme{rounded}
+\setbeamercolor{structure}{fg = myitemcolor}
+%\useoutertheme[height=1 cm,width=1.6 cm]{sidebar}
+\useoutertheme{smoothtree}
+
+\setbeamercolor{palette secondary}{bg=mylogobg,fg=mylogofg} %cor do logo
+\setbeamercolor{sidebar}{bg=mysidebarcolor} %Background do sidebar
+\setbeamercolor{palette sidebar tertiary}{fg = mysidebarauthor} %Autor no sidebar
+\setbeamercolor{palette sidebar quaternary}{fg = mysidebartitle} %Titulo no sidebar
+\setbeamercolor{section in sidebar}{fg = mysidebarsecfg,bg = mysidebarsecbg} %A cor eh a media de fg e bg
+\setbeamercolor{subsection in sidebar}{fg = mysidebarsubsecfg,bg = mysidebarsubsecbg} %A cor eh a media de fg e bg
+\setbeamercolor{frametitle}{fg = myframetitlefg, bg = myframetitlebg} 
+\setbeamercolor{title}{bg = mytitlebg,fg = mytitlefg}
+\setbeamerfont{title}{series = \bf}
+\setbeamercolor{author}{bg = myauthorbg,fg = myauthorfg}
+\setbeamerfont{author}{series = \it}
+\setbeamercolor{normal text}{bg = white, fg = myfontcolor}
+%\setbeamercolor{normal text}{bg = black, fg = white}
+%\setbeamerfont{normal text}{family=serif}
+\usefonttheme[onlymath]{serif}
+%\logo{\includegraphics[scale=0.35]{logo.png}}
+%\logo{$\min f(x)$}
+
+\newcommand{\makesection}[1]{\section[#1]{#1}}
+\newcommand{\makesubsection}[1]{\subsection[#1]{#1}}
+\newcommand{\tikzcircle}{arc (0:360:0.01)}
+
+\algrenewcommand\algorithmicif{\textbf{se}}
+\algrenewcommand\algorithmicthen{\textbf{então}}
+\algrenewcommand\algorithmicend{\textbf{fim do}}
+\algrenewcommand\algorithmicwhile{\textbf{enquanto}}
+\algrenewcommand\algorithmicdo{\textbf{faça}}
+\algrenewcommand\algorithmicelse{\textbf{senão}}
+
+\title{ MS380 - Aula 4 \\
+Limites}
+\author{Abel Soares Siqueira \\
+Laércio Luís Vendite}
+\date{}
+
+\newcommand{\myframe}[1]{
+\begin{frame}
+ \frametitle{\insertsection \qquad {\small \insertsubsection}}
+#1
+\end{frame}}
+\newcommand{\myframetop}[1]{
+\begin{frame}[t]
+ \frametitle{\insertsection \qquad {\small \insertsubsection}}
+#1
+\end{frame}}
+% \newcommand{\visiblelbl}[1]{\label{#1}{\color{red}{#1}}}
+\newcommand{\visiblelbl}[1]{\label{#1}}
+\newcommand{\spc}{\vspace{0.5 cm}}
+\newcommand{\systemtwo}[1]{$
+  \left\{\begin{array}{rcrcr} #1
+  \end{array}\right.$}
+\newcommand{\systemthree}[1]{$
+  \left\{\begin{array}{rcrcrcr}
+  #1
+  \end{array}\right.$}
+
+\newcommand{\limninf}{\lim_{n\rightarrow\infty}}
+\newcommand{\limx}[1]{\lim_{x\rightarrow{#1}}}
+\newcommand{\fundef}[1]{\left\{\begin{array}{ll} {#1} \end{array}\right.}
+
+\begin{document}
+
+\begin{frame}
+ \titlepage
+\end{frame}
+
+\makesection{Sequências}
+
+\myframe {
+  Uma sequência é uma lista ordenada de elementos.
+  $$ (a_1, a_2, a_3, a_4, \dots) $$
+  \pause
+  Exemplos:
+  $$ (1,1,1,\dots) \qquad \mbox{Sequência constante} $$
+  \pause
+  $$ (1,2,4,8,16,\dots) \qquad \mbox{PG com razão } 2$$
+  \pause
+  $$ \bigg(1, \frac{1}{2}, \frac{1}{2^2}, \frac{1}{2^3}, \frac{1}{2^4}, 
+      \frac{1}{2^5},\dots\bigg) \qquad \mbox{PG com razão }\frac{1}{2}$$
+  \pause
+  $$ (2,5,8,11,14,\dots) \qquad \mbox{PA com razão } 3 $$
+}
+
+\myframe {
+  Podemos escrever $S = (a_n)$ e descrever $a_n$.
+
+  Exemplos:
+  \begin{enumerate}
+    \item<1-> $a_n = 2^n, \Rightarrow S = (2,4,8,16,\dots)$
+    \item<2-> $a_n = \frac{1}{n}, 
+      \Rightarrow S = (1, \frac{1}{2}, \frac{1}{3}, \frac{1}{4}, \dots) $
+    \item<3-> $a_n = n^2, \Rightarrow S = (1, 2, 4, 9, 16, \dots)$
+    \item<4-> $a_1 = 1$, $a_{n+1} = 2a_n + 1, \Rightarrow S = (1,3,7,15,31,63,\dots)$
+    \item<5-> $a_1 = 2$, $a_{n+1} = \frac{1}{a_n} + 1, \Rightarrow
+      S = (2,\frac{3}{2}, \frac{5}{3}, \frac{8}{5}, \frac{13}{8}, \dots)$
+    \item<6-> $a_1 = 1, a_2 = 1$, $a_{n+1} = a_n + a_{n-1}, \Rightarrow
+      S = (1, 1, 2, 3, 5, 8, 13, 21, \dots) $
+  \end{enumerate}
+}
+
+\myframe {
+  Conforme $n$ aumenta, a sequência $a_n$ pode se aproximar de algum valor $L$.
+
+  Nesse caso, dizemos que $n$ converge para $L$ e dizemos que o limite da
+  sequência $a_n$ para $n$ tendendo ao infinito é $L$. Escrevemos
+  $$ \lim_{n\rightarrow\infty} a_n = L. $$
+
+  Caso contrário, a sequência diverge, podendo tender ao infinito, ou
+  não tender a nada.
+}
+
+\myframe {
+  $$ a_n = \frac{1}{n} $$
+  
+  \begin{center}
+  \begin{tikzpicture}[x=4cm,y=4cm]
+    %\draw[very thin, color=gray] (-0.1,-0.1) grid (2.1, 1.1);
+    \draw[->] (0,-0.1) -- (0,1.1);
+    \draw[->] (-0.1,0) -- (2.1,0);
+    \foreach \x in {1,2,...,20} {
+      \draw (\x/10+0.01,1/\x) \tikzcircle {};
+      \draw (\x/10,0.01) -- (\x/10,-0.01);
+    }
+  \end{tikzpicture}
+  \end{center}
+  Nesse caso, a sequência converge para 0.
+}
+
+\myframe {
+  $$ a_n = \frac{n}{n+1} $$
+
+  \begin{center}
+  \begin{tikzpicture}[x=4cm,y=4cm]
+    \draw[->] (0,-0.1) -- (0,1.1);
+    \draw[->] (-0.1,0) -- (2.1,0);
+    \foreach \x in {1,2,...,20} {
+      \draw (\x/10+0.01,{\x/(\x+1)}) \tikzcircle {};
+      \draw (\x/10,0.01) -- (\x/10,-0.01);
+    }
+    \draw[dashed] (-0.1,1.0) node[left] {$1$} -- (2.1,1.0);
+  \end{tikzpicture}
+  \end{center}
+  Nesse caso, a sequência converge para 1.
+}
+
+\myframe {
+  $$ a_n = n $$
+
+  \begin{center}
+  \begin{tikzpicture}[x=4cm,y=4cm]
+    \draw[->] (0,-0.1) -- (0,1.1);
+    \draw[->] (-0.1,0) -- (2.1,0);
+    \foreach \x in {1,2,...,20} {
+      \draw (\x/10+0.01,\x/20) \tikzcircle {};
+      \draw (\x/10,0.01) -- (\x/10,-0.01);
+      \draw (-0.01,\x/20) -- (0.01,\x/20);
+    }
+    \foreach \x in {5,10,15,20} {
+      \draw[thin,gray,dashed] (0.0,\x/20) node[left] {$\x$} -- (2.1,\x/20);
+      \draw[thin,gray,dashed] (\x/10,0.0) node[below] {$\x$} -- (\x/10,1.1);
+    }
+  \end{tikzpicture}
+  \end{center}
+  Nesse caso, a sequência tende a infinito, logo diverge.
+}
+
+\myframe {
+  $$ a_n = (-1)^n $$
+
+  \begin{center}
+  \begin{tikzpicture}[x=4cm,y=4cm]
+    \draw[->] (0,-0.6) -- (0,0.6);
+    \draw[->] (-0.1,0) -- (2.1,0);
+    \foreach \x in {1,2,...,20} {
+      \draw (\x/10+0.01,{0.5*(-1)^\x}) \tikzcircle {};
+      \draw (\x/10,0.01) -- (\x/10,-0.01);
+    }
+    \draw[thin,gray,dashed] (-0.01,0.5) node[left] {$1$} -- (2.1,0.5);
+    \draw[thin,gray,dashed] (-0.01,-0.5) node[left] {$-1$} -- (2.1,-0.5);
+  \end{tikzpicture}
+  \end{center}
+  Nesse caso, a sequência não tende a nada, alternando sempre entre -1 e 1. 
+    Portanto, é divergente.
+}
+
+\section{Definição de Limite de Sequências}
+
+\myframe {
+  Dado uma sequência real $(a_n)$, se existir $L \in \R$ tal que
+  para todo $\varepsilon > 0$, existe $n_0 \in \mathbb{N}$ tal que
+  $\modulo{a_n - L} < \varepsilon$ para todo $n > n_0$.
+
+  Escrevemos $$\lim_{n\rightarrow\infty} a_n = L.$$
+
+  \begin{center}
+  \begin{tikzpicture}
+    \draw[->] (-0.2,0) -- (4.1,0);
+    \draw[fill=red] (4,0) circle (0.02) node[below] {$a_1$};
+    \draw[fill=red] (4/2,0) circle (0.02) node[below] {$a_2$};
+    \draw[fill=red] (4/4,0) circle (0.02) node[below] {$a_3$};
+    \draw[fill=red] (4/8,0) circle (0.02) node[below] {$a_4$};
+    \draw[fill=red] (4/16,0) circle (0.02);
+    \draw[fill=red] (4/32,0) circle (0.02);
+    \draw[fill=red] (4/64,0) circle (0.02);
+    \draw[fill=red] (4/128,0) circle (0.02);
+    \draw (0,0.05) -- (0,-0.05) node[below] {$L$};
+  \end{tikzpicture}
+  \end{center}
+}
+
+\subsection{Exemplos}
+
+\myframe{
+  \begin{itemize}
+    \item $ \displaystyle \lim_{n\rightarrow\infty}\frac{1}{n} = 0, $
+    \item $ \displaystyle \lim_{n\rightarrow\infty}\frac{n+1}{n} = 1, $
+    \item $ \displaystyle \lim_{n\rightarrow\infty}\frac{n^2-5n+6}{4n^2 + 1} = \frac{1}{4}, $
+    \item $ \displaystyle \lim_{n\rightarrow\infty}n = +\infty, $
+    \item $ \displaystyle \lim_{n\rightarrow\infty}(-1)^n \mbox{ n\~ao existe}, $
+    \item $ \displaystyle \lim_{n\rightarrow\infty}\sqrt{n+a^2} - \sqrt{n} = 0, $
+    \item $ \displaystyle \lim_{n\rightarrow\infty}ne^{-n} = 0, $
+  \end{itemize}
+}
+
+\subsection{Operações}
+
+\myframe{
+  $$ \limninf a_n = L_1 \qquad \mbox{ e } \qquad \limninf b_n = L_2 $$
+  \begin{align*}
+    \limninf a_n\pm b_n & = \limninf a_n \pm \limninf b_n = L_1\pm L_2 \\
+    \limninf a_nb_n & = \limninf a_n\limninf b_n = L_1L_2 \\
+    \limninf \frac{a_n}{b_n} & = \frac{\limninf a_n}{\limninf b_n}
+      = \frac{L_1}{L_2}, \qquad \mbox{se } L_2 \neq 0 \\
+    \limninf a_n^p & = \bigg(\limninf a_n\bigg)^p \\
+    \limninf \sqrt{a_n} & = \sqrt{\limninf a_n}
+  \end{align*}
+}
+
+\section{Limites Fundamentais}
+
+\subsection{Progressão Geométrica}
+
+\myframe {
+  $$a_n = a_0q^n$$
+
+  $$ \limninf a_n = \left\{
+    \begin{array}{ll}
+      0, & \modulo{q} < 1 \\
+      a_0, & q = 1 \\
+      \infty, & q > 1 \\
+      \mbox{não existe}, & q \leq -1
+    \end{array}
+    \right. $$
+}
+
+\subsection{Frações polinomiais}
+
+\myframe {
+  $$ a_n = \frac{p(n)}{q(n)} $$
+
+  $$ p(n) = p_0n^k + p_1n^{k-1} + \dots + p_k, \qquad \mbox{grau}(p) = k $$
+  $$ q(n) = q_0n^m + q_1n^{m-1} + \dots + q_m, \qquad \mbox{grau}(q) = m $$
+  
+  $$ \limninf a_n = \left\{
+    \begin{array}{ll}
+      0, & k < m \\ 
+      \frac{p_0}{q_0}, & k = m \\
+      \mbox{sinal}(p_0*q_0)\infty, & k > m \\
+    \end{array}
+    \right. $$
+}
+
+\myframe {
+  \begin{align*}
+    \limninf \frac{2n + 1}{3n - 1} & =
+      \limninf \frac{n(2 + \frac{1}{n})}{n(3 - \frac{1}{n})} =
+      \limninf \frac{2 + \frac{1}{n}}{3 - \frac{1}{n}} = \frac{2}{3}
+  \end{align*}
+  \vspace{0.5 cm}
+  \begin{align*}
+    \limninf \frac{2n - 1}{2n^2 + 3n - 1} & =
+      \limninf \frac{n^2(\frac{2}{n} - \frac{1}{n^2})}{n^2(2 + \frac{3}{n} - \frac{1}{n})} =
+      \limninf \frac{\frac{2}{n} - \frac{1}{n^2}}{2+\frac{3}{n}-\frac{1}{n}} = \frac{0}{2} = 0
+  \end{align*}
+  \vspace{0.5 cm}
+  \begin{align*}
+    \limninf \frac{-n^2 + 2n}{3n + 1} & =
+      \limninf \frac{n^2(-1 + \frac{2}{n})}{n^2(\frac{3}{n}+\frac{1}{n^2})} =
+      \limninf \frac{-1+\frac{2}{n}}{\frac{3}{n}+\frac{1}{n^2}}
+  \end{align*}
+}
+
+\myframe {
+  \begin{align*}
+    \limninf \bigg(1 + \frac{1}{n}\bigg)^n = e \approx 2.71828
+  \end{align*}
+  \vspace{0.5 cm}
+  \begin{align*}
+    \limninf \bigg(1 + \frac{a}{n}\bigg)^n = e^a
+  \end{align*}
+}
+
+\section{Limite de Função}
+
+\myframe {
+  Dado uma função $f$, com $a \in \R$, se existe $L \in \R$
+  tal que, para todo $\varepsilon > 0$, existe $\delta > 0$ (que depende
+  de $\varepsilon$) tal que
+  $$\mbox{se } \qquad 0 < \modulo{x - a} < \delta, \qquad \mbox{então} \qquad
+      \modulo{f(x) - L} < \varepsilon$$
+  \begin{center}
+    \begin{tikzpicture}[domain=0.0:3.5]
+      \draw[->] (-0.1,0) -- (4.1,0);
+      \draw[->] (0,-0.1) -- (0,4.1);
+      \draw plot (\x,0.25*\x^2+1);
+      \draw[dashed,gray] (2,4.1) -- (2,-0.1) node[below] {$a$};
+      \draw[dashed,gray] (4.1,2) -- (-0.1,2) node[left] {$L$};
+      \only<1>{
+        \draw[<->] (4,2-0.9) -- node[right] {$\varepsilon$} (4,2);
+        \draw[<->] (2-0.6,4) -- node[above] {$\delta$} (2,4);
+        \draw[color=red] (0,2-0.9) -- (4.1,2-0.9);
+        \draw[color=red] (0,2+0.9) -- (4.1,2+0.9);
+        \draw[color=blue] (2-0.6,0) -- (2-0.6,4.1);
+        \draw[color=blue] (2+0.6,0) -- (2+0.6,4.1);
+        \draw[color=blue,domain=1.4:2.6,thick] plot (\x,0.25*\x^2+1);
+      }
+      \only<2>{
+        \draw[<->] (4,2-0.7) -- node[right] {$\varepsilon$} (4,2);
+        \draw[<->] (2-0.4,4) -- node[above] {$\delta$} (2,4);
+        \draw[color=red] (0,2-0.7) -- (4.1,2-0.7);
+        \draw[color=red] (0,2+0.7) -- (4.1,2+0.7);
+        \draw[color=blue] (2-0.4,0) -- (2-0.4,4.1);
+        \draw[color=blue] (2+0.4,0) -- (2+0.4,4.1);
+        \draw[color=blue,domain=2-0.4:2+0.4,thick] plot (\x,0.25*\x^2+1);
+      }
+      \only<3>{
+        \draw[<->] (4,2-0.4) -- node[right] {$\varepsilon$} (4,2);
+        \draw[<->] (2-0.2,4) -- node[above] {$\delta$} (2,4);
+        \draw[color=red] (0,2-0.4) -- (4.1,2-0.4);
+        \draw[color=red] (0,2+0.4) -- (4.1,2+0.4);
+        \draw[color=blue] (2-0.2,0) -- (2-0.2,4.1);
+        \draw[color=blue] (2+0.2,0) -- (2+0.2,4.1);
+        \draw[color=blue,domain=2-0.2:2+0.2,thick] plot (\x,0.25*\x^2+1);
+      }
+      \only<4>{
+        \draw[<->] (4,2-0.2) -- node[right] {$\varepsilon$} (4,2);
+        \draw[<->] (2-0.1,4) -- node[above] {$\delta$} (2,4);
+        \draw[color=red] (0,2-0.2) -- (4.1,2-0.2);
+        \draw[color=red] (0,2+0.2) -- (4.1,2+0.2);
+        \draw[color=blue] (2-0.1,0) -- (2-0.1,4.1);
+        \draw[color=blue] (2+0.1,0) -- (2+0.1,4.1);
+        \draw[color=blue,domain=2-0.1:2+0.1,thick] plot (\x,0.25*\x^2+1);
+      }
+    \end{tikzpicture}
+  \end{center}
+}
+
+\myframe {
+  $$\lim_{x\rightarrow3} 4x+2 = 14$$
+  $$\lim_{x\rightarrow2} 3x^2+1 = 13$$
+  $$\lim_{x\rightarrow6} \frac{3}{x+3} = \frac{1}{3}$$
+  $$\lim_{x\rightarrow2} \frac{x^3-4x}{x^2-4} = ? 
+    {\color{red} \bigg(\frac{0}{0}\bigg)}$$
+  $$\lim_{x\rightarrow5} \frac{x-5}{x^2-5x} = ?
+    {\color{red} \bigg(\frac{0}{0}\bigg)}$$
+}
+
+\myframe {
+  A função não precisa estar definida no ponto para ter limite naquele ponto.
+  E mesmo que esteja definida no ponto, o limite não precisa ser igual ao valor
+  da função.
+  $$ f(x) = \left\{\begin{array}{ll}
+    x, & x \neq 2 \\
+    0, & x = 2
+  \end{array}\right.$$
+  \begin{center}
+  \begin{tikzpicture}[scale=0.8]
+    \draw[->] (-0.1,0) -- (3.6,0);
+    \draw[->] (0,-0.1) -- (0,3.6);
+    \draw[domain=0.5:1.97] plot (\x,\x);
+    \draw[domain=2.03:3.5] plot (\x,\x);
+    \draw (2,2) circle (0.04);
+    \draw[fill] (2,0) circle (0.04);
+    \foreach \x in {1,2,3} {
+      \draw (-0.1,\x) node[left] {\x} -- (0.1,\x);
+      \draw (\x,-0.1) node[below] {\x} -- (\x,0.1);
+    }
+  \end{tikzpicture}
+  \end{center}
+  $$ \limx{2} f(x) = 2, \qquad \mbox{mas} \qquad f(2) = 0$$
+}
+
+\subsection{Indeterminação}
+
+\myframe {
+  \begin{align*}
+    \lim_{x\rightarrow2} \frac{x^3-4x}{x^2-4} & =
+      \lim_{x\rightarrow2} \frac{x(x^2 - 4)}{x^2-4} =
+      \lim_{x\rightarrow2} x = 2
+  \end{align*}
+  \begin{align*}
+    \limx{5} \frac{x-5}{x^2-5x} & = 
+      \limx{5} \frac{x-5}{x(x-5)} =
+      \limx{5} \frac{1}{x} = \frac{1}{5}
+  \end{align*}
+  \begin{align*}
+    \limx{2} \frac{\sqrt{x}-\sqrt{2}}{x-2} & =
+      \limx{2} \frac{(\sqrt{x}-\sqrt{2})(\sqrt{x}+\sqrt{2})}{(x-2)(\sqrt{x}+\sqrt{2})} =
+      \limx{2} \frac{x-2}{(x-2)(\sqrt{x}+\sqrt{2})} \\
+      & = \limx{2} \frac{1}{\sqrt{x}+\sqrt{2}} = \frac{1}{2\sqrt{2}}
+  \end{align*}
+}
+
+\subsection{Limites Laterais}
+
+\myframe {
+  $$ \limx{a^+}f(x) \qquad \mbox{limite com $x$ tendendo a $a$ por valores maiores que $a$}$$
+  $$ \limx{a^-}f(x) \qquad \mbox{limite com $x$ tendendo a $a$ por valores menores que $a$}$$
+  \vspace{0.5 cm}
+  \begin{center}
+    $\displaystyle \limx{a}f(x)$ só existe se os limites laterais são iguais, e o
+    limite é igual aos limites laterais.
+  \end{center}
+}
+
+\myframe {
+  $$ f(x) = \left\{\begin{array}{ll}
+    x, & x \leq 1 \\
+    3-x, & x > 1
+  \end{array}\right. $$
+  \begin{center}
+  \begin{tikzpicture}
+    \draw[->] (-0.1,0) -- (2.1,0);
+    \draw[->] (0,-0.1) -- (0,2.1);
+    \draw[domain=-0.1:1,blue] plot (\x,\x);
+    \draw[domain=1:2.1,blue] plot (\x,3-\x);
+    \draw[fill] (1,1) circle (0.03);
+    \draw (1,2) circle (0.03);
+    \draw[dashed] (1,0) node[below] {1} -- (1,2);
+    \foreach \x in {1,2} {
+      \draw (0.1,\x) -- (-0.1,\x) node[left] {\x};
+    }
+  \end{tikzpicture}
+  \end{center}
+  $$ \limx{1^+} f(x) = \limx{1^+} 3-x = 2 \qquad \limx{1^-} f(x) = \limx{1^-} x = 1$$
+  $$ \limx{1} f(x) \mbox{ não existe} $$
+}
+
+\subsection{Limites Infinitos}
+
+\myframe {
+  $$ f(x) = \frac{1}{x} $$
+  \begin{center}
+  \begin{tikzpicture}[scale=0.5]
+    \draw[->] (-4.1,0) -- (4.1,0);
+    \draw[->] (0,-4.1) -- (0,4.1);
+    \draw[blue,domain=-4:-1/4] plot (\x,1/\x);
+    \draw[blue,domain=1/4:4] plot (\x,1/\x);
+  \end{tikzpicture}
+  \end{center}
+  $$ \limx{0^+} \frac{1}{x} = +\infty \qquad \qquad
+    \limx{0^-} \frac{1}{x} = -\infty $$
+  $$ \limx{+\infty} \frac{1}{x} = 0 \qquad \qquad
+    \limx{-\infty} \frac{1}{x} = 0 $$
+}
+
+\myframe {
+  $$ f(x) = \frac{(x-1)^2}{x} $$
+  \begin{center}
+  \begin{tikzpicture}[scale=0.25]
+    \draw[->] (-4.1,0) -- (4.1,0);
+    \draw[->] (0,-8.1) -- (0,4.1);
+    \draw[blue,domain=1/6:4] plot (\x,{(\x-1)^2/\x});
+    \draw[blue,domain=-4:-1/6] plot (\x,{(\x-1)^2/\x});
+  \end{tikzpicture}
+  \end{center}
+  $$ \limx{0^+} \frac{(x-1)^2}{x} = +\infty \qquad \qquad
+    \limx{0^-} \frac{(x-1)^2}{x} = -\infty $$
+  $$ \limx{+\infty} \frac{(x-1)^2}{x} = +\infty \qquad \qquad
+    \limx{-\infty} \frac{(x-1)^2}{x} = -\infty $$
+}
+
+\subsection{Operações}
+
+\myframe {
+  $$ \limx{a} f(x) = F \qquad \limx{a} g(x) = G $$
+  \begin{align*}
+    \limx{a} f(x)\pm g(x) & = \limx{a} f(x) \pm \limx{a} g(x) = F\pm G \\
+    \limx{a} f(x)g(x) & = \limx{a} f(x) \limx{a} g(x) = FG \\
+    \limx{a} \dfrac{f(x)}{g(x)} & = 
+      \dfrac{\displaystyle\limx{a} f(x)}{\displaystyle\limx{a} g(x)} = 
+      \frac{F}{G}, \qquad \mbox{se } G \neq 0 \\
+    \limx{a} f(x)^n & = \bigg[\limx{a} f(x)\bigg]^n
+  \end{align*}
+}
+
+\subsection{Teorema do Confronto}
+
+\myframe {
+  Se $f(x) \leq g(x) \leq h(x)$ para todo $x$ numa vizinhança de $a$,
+    exceto, possivelmente em $a$, e
+    $$ \limx{a} f(x) = L = \limx{a} h(x) = L, $$
+    então
+    $$ \limx{a} g(x) = L $$
+  \begin{center}
+  \begin{tikzpicture}[domain=-2:2,scale=1]
+    \draw[blue] plot(\x,0.3*\x^2);
+    \draw[blue] plot(\x,-0.4*\x^2);
+    \draw[red] plot(\x,-0.2*\x^3);
+    \draw[dashed] (-2,0) node[left] {$L$} -- 
+      (0,0) -- (0,-2) node[below] {$a$};
+  \end{tikzpicture}
+  \end{center}
+}
+
+\myframe {
+  Calcule o limite $\displaystyle \limx{0}x^2\sin\frac{1}{x}$.
+  \vspace{0.5cm}
+
+  Como $-1 \leq \sin\frac{1}{x} \leq 1$, então
+  $$ -x^2 \leq x^2\sin\frac{1}{x} \leq x^2. $$
+  E
+  $$ \limx{0} -x^2 = \limx{0} x^2 = 0. $$
+  Logo,
+  $$ \limx{0} x^2\sin\frac{1}{x} = 0. $$
+}
+
+
+\subsection{Limite do Seno}
+
+\myframe {
+  $$ \limx{0} \frac{\sin x}{x} = 1 $$
+  \vspace{0.5 cm}
+
+  Basta ver que
+  $$ \sin x < x < \tan x $$
+  $$ 1 < \frac{x}{\sin x} < \frac{1}{\cos x} $$
+  $$ \cos x < \frac{\sin x}{x} < 1 $$
+
+  \begin{center}
+  \begin{tikzpicture}
+    \draw[->] (-3.1,0) -- (3.1,0);
+    \draw[->] (0,-0.1) -- (0,1.3);
+    \draw[domain=-3:-0.02,blue] plot (\x,{sin(\x r)/\x});
+    \draw[domain=0.02:3,blue] plot (\x,{sin(\x r)/\x});
+    \draw (0,1) circle (0.03);
+    \draw[dashed] (-3,1) -- node[above right] {$1$} (3,1);
+  \end{tikzpicture}
+  \end{center}
+}
+
+\section{Funções Contínuas}
+
+\myframe {
+  Seja $f$ definida no intervalo aberto $(a,b)$.
+  $f$ é {\bf contínua em $c \in (a,b)$} se o limite de $f(x)$ para
+  $x$ tendendo a $c$ existe e é igual a $f(c)$, isto é, se
+  $$ \limx{c} f(x) = f(c). $$
+
+  Uma função é dita contínua se é contínua em todos os pontos de seu domínio.
+  
+  \begin{itemize}
+    \item Todos os polinômios são funções contínuas.
+    \item $f(x) = e^x$, $f(x) = \sin(x)$, $f(x) = \cos(x)$, são funções contínuas.
+    
+    \item $f(x) = 
+    \left\{
+    \begin{array}{ll} 
+      0, & x \leq 0 \\ 
+      1, & x > 0
+    \end{array}
+    \right.$ 
+      não é contínua no $0$, mas
+      é contínua em todos os outros pontos.
+    \item $f(x) = 
+    \left\{
+    \begin{array}{ll} 
+      \dfrac{\sin x}{x}, & x \neq 0 \\ 
+      1, & x = 0
+    \end{array}
+    \right.$ 
+    é contínua em todos os pontos.
+    \item $f(x) = 
+    \left\{
+    \begin{array}{ll} 
+      1, & x \in \mathbb{Q} \\ 
+      0, & x \not\in \mathbb{Q}
+    \end{array}
+    \right.$ 
+    não é contínua em nenhum ponto.
+  \end{itemize}
+}
+
+\end{document}

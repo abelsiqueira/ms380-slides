@@ -1,0 +1,315 @@
+\documentclass[10 pt]{beamer}
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+\usepackage[utf8]{inputenc}
+\usepackage{framed}
+%\usepackage[dvipsnames]{color}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{epsfig}
+\usepackage{abel}
+\usepackage{tikz}
+\usepackage{amssymb, amsmath, amsfonts}
+\bibliographystyle{plain}
+%\topmargin		0 cm
+%\hoffset		0 cm
+%\voffset		0 cm
+%\evensidemargin		0 cm
+%\oddsidemargin		0 cm
+%\setlength{\textwidth}{16 cm}
+%\setlength{\textheight}{21 cm}
+
+\colorlet{mybasecolor}[rgb]{teal}
+
+\colorlet{mydarkestcolor}[rgb]{mybasecolor!20!black}
+\colorlet{mydarkcolor}[rgb]{mybasecolor!60!black}
+\colorlet{mynormalcolor}[rgb]{mybasecolor!90!black}
+\colorlet{mylightcolor}[rgb]{mybasecolor!10!white}
+
+\colorlet{mysidebarcolor}[rgb]{mydarkcolor}
+\colorlet{mylogobg}[rgb]{mylightcolor}
+\colorlet{mylogofg}[rgb]{mydarkestcolor}
+\colorlet{mysidebarauthor}[rgb]{mylightcolor}
+\colorlet{mysidebartitle}[rgb]{mylightcolor}
+\colorlet{mysidebarsecfg}[rgb]{mydarkestcolor}
+\colorlet{mysidebarsecbg}[rgb]{mylightcolor}
+\colorlet{mysidebarsubsecfg}[rgb]{mydarkestcolor}
+\colorlet{mysidebarsubsecbg}[rgb]{mylightcolor}
+\colorlet{myframetitlefg}[rgb]{mylightcolor}
+\colorlet{myframetitlebg}[rgb]{mydarkcolor}
+\colorlet{myitemcolor}[rgb]{mynormalcolor}
+\colorlet{myfontcolor}[rgb]{mydarkestcolor}
+\colorlet{mytitlefg}[rgb]{mylightcolor}
+\colorlet{mytitlebg}[rgb]{mydarkcolor}
+\colorlet{myauthorfg}[rgb]{mylightcolor}
+\colorlet{myauthorbg}[rgb]{mydarkcolor}
+
+\useinnertheme{rounded}
+\setbeamercolor{structure}{fg = myitemcolor}
+%\useoutertheme[height=1 cm,width=1.6 cm]{sidebar}
+\useoutertheme{smoothtree}
+
+\setbeamercolor{palette secondary}{bg=mylogobg,fg=mylogofg} %cor do logo
+\setbeamercolor{sidebar}{bg=mysidebarcolor} %Background do sidebar
+\setbeamercolor{palette sidebar tertiary}{fg = mysidebarauthor} %Autor no sidebar
+\setbeamercolor{palette sidebar quaternary}{fg = mysidebartitle} %Titulo no sidebar
+\setbeamercolor{section in sidebar}{fg = mysidebarsecfg,bg = mysidebarsecbg} %A cor eh a media de fg e bg
+\setbeamercolor{subsection in sidebar}{fg = mysidebarsubsecfg,bg = mysidebarsubsecbg} %A cor eh a media de fg e bg
+\setbeamercolor{frametitle}{fg = myframetitlefg, bg = myframetitlebg} 
+\setbeamercolor{title}{bg = mytitlebg,fg = mytitlefg}
+\setbeamerfont{title}{series = \bf}
+\setbeamercolor{author}{bg = myauthorbg,fg = myauthorfg}
+\setbeamerfont{author}{series = \it}
+\setbeamercolor{normal text}{bg = white, fg = myfontcolor}
+%\setbeamercolor{normal text}{bg = black, fg = white}
+%\setbeamerfont{normal text}{family=serif}
+\usefonttheme[onlymath]{serif}
+%\logo{\includegraphics[scale=0.35]{logo.png}}
+%\logo{$\min f(x)$}
+
+\newcommand{\makesection}[1]{\section[#1]{#1}}
+\newcommand{\makesubsection}[1]{\subsection[#1]{#1}}
+
+\algrenewcommand\algorithmicif{\textbf{se}}
+\algrenewcommand\algorithmicthen{\textbf{então}}
+\algrenewcommand\algorithmicend{\textbf{fim do}}
+\algrenewcommand\algorithmicwhile{\textbf{enquanto}}
+\algrenewcommand\algorithmicdo{\textbf{faça}}
+\algrenewcommand\algorithmicelse{\textbf{senão}}
+
+\title{ MS380 - Aula Complementar \\
+Sistemas Lineares}
+\author{Abel Soares Siqueira \\
+Laércio Luís Vendite}
+\date{}
+
+\newcommand{\myframe}[1]{
+\begin{frame}
+ \frametitle{\insertsection \qquad {\small \insertsubsection}}
+#1
+\end{frame}}
+\newcommand{\myframetop}[1]{
+\begin{frame}[t]
+ \frametitle{\insertsection \qquad {\small \insertsubsection}}
+#1
+\end{frame}}
+% \newcommand{\visiblelbl}[1]{\label{#1}{\color{red}{#1}}}
+\newcommand{\visiblelbl}[1]{\label{#1}}
+\newcommand{\spc}{\vspace{0.5 cm}}
+\newcommand{\systemtwo}[1]{$
+  \left\{\begin{array}{rcrcr} #1
+  \end{array}\right.$}
+\newcommand{\systemthree}[1]{$
+  \left\{\begin{array}{rcrcrcr}
+  #1
+  \end{array}\right.$}
+
+\begin{document}
+
+\begin{frame}
+ \titlepage
+\end{frame}
+
+\makesection{Sistemas Lineares}
+\myframe {
+\begin{center}
+  \systemtwo{
+    a_{11}x & + & a_{12}y & = & b_1 \\
+    a_{21}x & + & a_{22}y & = & b_2
+  }
+  \spc
+  \begin{itemize}
+    \item Substituição
+    \item Eliminação
+  \end{itemize}
+  \end{center}
+}
+
+\makesubsection{Substituição}
+\myframe {
+\begin{center}
+  \systemtwo{
+    3x & + & 5y & = & 8 \\
+    4x & - & 3y & = & 1
+  } \\
+    \pause
+    $$ 3x = 8 - 5y \Longrightarrow
+    x  = \frac{8}{3} - \frac{5}{3}y $$
+    \pause
+    $$ 4\bigg(\frac{8}{3} - \frac{5}{3}y\bigg) - 3y = 1 
+      \Longrightarrow \frac{32}{3} - \frac{20}{3}y - 3y = 1$$
+    \pause
+    $$ \frac{29}{3}y = \frac{29}{3} \Longrightarrow y = 1 $$
+    \pause
+    $$ x  = \frac{8}{3} - \frac{5}{3}y = 
+      \frac{8}{3} - \frac{5}{3} = 1. $$
+\end{center}
+}
+
+\makesubsection{Eliminação}
+\myframe {
+  \begin{center}
+  \systemtwo{
+    3x & + & 5y & = & 8 \\
+    4x & - & 3y & = & 1
+  } \spc \\
+  \pause
+  \systemtwo{
+    12x & + & 20y & = & 32 \\
+    12x & - & 9y & = & 3
+  } \\
+  \pause
+  $$ L_1 - L_2 = 20y + 9y = 32 - 3 \Longrightarrow 29y = 29 
+    \Longrightarrow y = 1.$$
+  \pause
+  $$ 4x = 1 + 3y \Longrightarrow 4x = 1 + 3 \Longrightarrow 
+    4x = 4 \Longrightarrow x = 1. $$
+  \end{center}
+}
+
+\myframe {
+  \begin{center}
+  \systemtwo{
+    3x & + & 5y & = & 8 \\
+    4x & - & 3y & = & 1
+  } \spc \\
+  \pause
+  \systemtwo{
+    x & + & \frac{5}{3}y & = & \frac{8}{3} \\
+    4x & - & 3y & = & 1
+  } \\
+  \pause
+  $$L_2 \leftarrow L_2 - 4L_1$$
+  \pause
+  \systemtwo{
+    x & + & \frac{5}{3}y & = & \frac{8}{3} \\
+      &  & -\frac{29}{3}y & = & -\frac{29}{3}
+  } \\
+  \pause
+  $$ y = (-\frac{29}{3})/(-\frac{29}{3}) = 1. $$
+  \pause
+  $$ x = \frac{8}{3} - \frac{5}{3}y =
+         \frac{8}{3} - \frac{5}{3} = 1. $$
+  \end{center}
+}
+
+\makesubsection{Gráfico}
+\myframe {
+  \begin{center}
+  \systemtwo{
+    3x & + & 5y & = & 8 \\
+    4x & - & 3y & = & 1
+  }  \\
+  \begin{tikzpicture}[domain=-0.1:3.0,scale=1.0]
+    \draw[very thin, color=gray] (-0.2, -1.2) grid (3.2, 2.2);
+    \draw[->] (-0.2,0) -- (3.2,0) node[right] {$x$};
+    \draw[->] (0,-1.2) -- (0,2.2) node[above] {$y$};
+    \pause
+    \draw[color=red] (8/3,1pt) -- (8/3,-1pt)
+      node[below] {$\frac{8}{3}$};
+    \pause
+    \draw[color=red] (1pt,8/5) -- (-1pt,8/5) 
+      node[left]  {$\frac{8}{5}$};
+    \pause
+    \draw[color=red] plot (\x, 8/5 - 3*\x/5)
+      node[below right] {$3x + 5y = 8$};
+    \pause
+    \draw[color=blue] (1/4,1pt) -- (1/4,-1pt) 
+      node[below] {$\frac{1}{4}$};
+    \pause
+    \draw[color=blue] (1pt,-1/3) -- (-1pt,-1/3) 
+      node[left]  {$-\frac{1}{3}$};
+    \pause
+    \draw[color=blue] plot (\x/2, 2*\x/3 - 1/3)
+      node[above] {$4x - 3y = 1$};
+  \end{tikzpicture}
+  \end{center}
+}
+
+\makesubsection{Mais variáveis}
+
+\myframetop{
+\begin{center}
+  \only<1,2>{
+  \systemthree{
+    4x & - &  y & + & 2z & = & 4 \\
+     x & + & 3y & - &  z & = & 3 \\
+    -x & + & 2y & + & 3x & = & 13
+  } \\ 
+    \only<2>{
+    $$ L_1 \leftrightarrow L_2 $$
+    }
+  }
+  \only<3,4>{
+  \systemthree{
+     x & + & 3y & - &  z & = & 3 \\
+    4x & - &  y & + & 2z & = & 4 \\
+    -x & + & 2y & + & 3x & = & 13
+  } \\ 
+    \only<4>{
+    \begin{align*}
+     L_2 & \leftarrow L_2 - 4L_1 \\
+     L_3 & \leftarrow L_3 + L_1
+    \end{align*}
+    }
+  }
+  \only<5,6>{
+  \systemthree{
+     x & + & 3y & - &  z & = & 3 \\
+       & - &13y & + & 6z & = & -8 \\
+       &   & 5y & + & 2z & = & 16
+  } \\
+    \only<6>{
+      \begin{align*}
+        C_2 \leftrightarrow C_3 \\
+        L_2 \leftrightarrow L_3
+      \end{align*}
+    }
+  }
+  \only<7,8>{
+  \systemthree{
+     x & - &  z & + &  3y & = & 3 \\
+       &   & 2z & + &  5y & = & 16 \\ 
+       &   & 6z & - & 13y & = & -8
+  } \\
+    \only<8>{
+      \begin{align*}
+        L_2 \leftarrow L_2/2
+      \end{align*}
+    }
+  }
+  \only<9,10>{
+  \systemthree{
+     x & - &  z & + &  3y & = & 3 \\
+       &   &  z & + &  \frac{5}{2}y & = & 8 \\ 
+       &   & 6z & - & 13y & = & -8
+  } \\
+    \only<10>{
+      \begin{align*}
+        L_3 \leftarrow L_3 - 6L_2
+      \end{align*}
+    }
+  }
+  \only<11-14>{
+  \systemthree{
+     x & - &  z & + &  3y & = & 3 \\
+       &   &  z & + &  \frac{5}{2}y & = & 8 \\ 
+       &   &    & - & 28y & = & -56
+  } \\
+    \onslide<12->{
+      \begin{align*}
+        y & = (-56)/(-28) = 2 \\
+        \onslide<13->{
+        z & = 8 - \frac{5}{2}y = 8 - 5 = 3 \\}
+        \onslide<14>{
+        x & = z - 3y + 3 = 3 - 6 + 3 = 0}
+      \end{align*}
+    }
+  }
+
+\end{center}
+}
+
+\end{document}

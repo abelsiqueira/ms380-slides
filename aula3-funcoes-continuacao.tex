@@ -1,0 +1,358 @@
+\documentclass[10 pt]{beamer}
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+\usepackage[utf8]{inputenc}
+\usepackage{framed}
+%\usepackage[dvipsnames]{color}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{epsfig}
+\usepackage{abel}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usetikzlibrary{fit}
+\usepackage{amssymb, amsmath, amsfonts}
+\bibliographystyle{plain}
+%\topmargin		0 cm
+%\hoffset		0 cm
+%\voffset		0 cm
+%\evensidemargin		0 cm
+%\oddsidemargin		0 cm
+%\setlength{\textwidth}{16 cm}
+%\setlength{\textheight}{21 cm}
+
+\colorlet{mybasecolor}[rgb]{teal}
+
+\colorlet{mydarkestcolor}[rgb]{mybasecolor!20!black}
+\colorlet{mydarkcolor}[rgb]{mybasecolor!60!black}
+\colorlet{mynormalcolor}[rgb]{mybasecolor!90!black}
+\colorlet{mylightcolor}[rgb]{mybasecolor!10!white}
+
+\colorlet{mysidebarcolor}[rgb]{mydarkcolor}
+\colorlet{mylogobg}[rgb]{mylightcolor}
+\colorlet{mylogofg}[rgb]{mydarkestcolor}
+\colorlet{mysidebarauthor}[rgb]{mylightcolor}
+\colorlet{mysidebartitle}[rgb]{mylightcolor}
+\colorlet{mysidebarsecfg}[rgb]{mydarkestcolor}
+\colorlet{mysidebarsecbg}[rgb]{mylightcolor}
+\colorlet{mysidebarsubsecfg}[rgb]{mydarkestcolor}
+\colorlet{mysidebarsubsecbg}[rgb]{mylightcolor}
+\colorlet{myframetitlefg}[rgb]{mylightcolor}
+\colorlet{myframetitlebg}[rgb]{mydarkcolor}
+\colorlet{myitemcolor}[rgb]{mynormalcolor}
+\colorlet{myfontcolor}[rgb]{mydarkestcolor}
+\colorlet{mytitlefg}[rgb]{mylightcolor}
+\colorlet{mytitlebg}[rgb]{mydarkcolor}
+\colorlet{myauthorfg}[rgb]{mylightcolor}
+\colorlet{myauthorbg}[rgb]{mydarkcolor}
+
+\useinnertheme{rounded}
+\setbeamercolor{structure}{fg = myitemcolor}
+%\useoutertheme[height=1 cm,width=1.6 cm]{sidebar}
+\useoutertheme{smoothtree}
+
+\setbeamercolor{palette secondary}{bg=mylogobg,fg=mylogofg} %cor do logo
+\setbeamercolor{sidebar}{bg=mysidebarcolor} %Background do sidebar
+\setbeamercolor{palette sidebar tertiary}{fg = mysidebarauthor} %Autor no sidebar
+\setbeamercolor{palette sidebar quaternary}{fg = mysidebartitle} %Titulo no sidebar
+\setbeamercolor{section in sidebar}{fg = mysidebarsecfg,bg = mysidebarsecbg} %A cor eh a media de fg e bg
+\setbeamercolor{subsection in sidebar}{fg = mysidebarsubsecfg,bg = mysidebarsubsecbg} %A cor eh a media de fg e bg
+\setbeamercolor{frametitle}{fg = myframetitlefg, bg = myframetitlebg} 
+\setbeamercolor{title}{bg = mytitlebg,fg = mytitlefg}
+\setbeamerfont{title}{series = \bf}
+\setbeamercolor{author}{bg = myauthorbg,fg = myauthorfg}
+\setbeamerfont{author}{series = \it}
+\setbeamercolor{normal text}{bg = white, fg = myfontcolor}
+%\setbeamercolor{normal text}{bg = black, fg = white}
+%\setbeamerfont{normal text}{family=serif}
+\usefonttheme[onlymath]{serif}
+%\logo{\includegraphics[scale=0.35]{logo.png}}
+%\logo{$\min f(x)$}
+
+\newcommand{\makesection}[1]{\section[#1]{#1}}
+\newcommand{\makesubsection}[1]{\subsection[#1]{#1}}
+
+\algrenewcommand\algorithmicif{\textbf{se}}
+\algrenewcommand\algorithmicthen{\textbf{então}}
+\algrenewcommand\algorithmicend{\textbf{fim do}}
+\algrenewcommand\algorithmicwhile{\textbf{enquanto}}
+\algrenewcommand\algorithmicdo{\textbf{faça}}
+\algrenewcommand\algorithmicelse{\textbf{senão}}
+
+\title{ MS380 - Aula 3 \\
+Funções (continuação)}
+\author{Abel Soares Siqueira \\
+Laércio Luís Vendite}
+\date{}
+
+\newcommand{\myframe}[1]{
+\begin{frame}
+ \frametitle{\insertsection \qquad {\small \insertsubsection}}
+#1
+\end{frame}}
+\newcommand{\myframetop}[1]{
+\begin{frame}[t]
+ \frametitle{\insertsection \qquad {\small \insertsubsection}}
+#1
+\end{frame}}
+% \newcommand{\visiblelbl}[1]{\label{#1}{\color{red}{#1}}}
+\newcommand{\visiblelbl}[1]{\label{#1}}
+\newcommand{\spc}{\vspace{0.5 cm}}
+\newcommand{\systemtwo}[1]{$
+  \left\{\begin{array}{rcrcr} #1
+  \end{array}\right.$}
+\newcommand{\systemthree}[1]{$
+  \left\{\begin{array}{rcrcrcr}
+  #1
+  \end{array}\right.$}
+
+\begin{document}
+
+\begin{frame}
+ \titlepage
+\end{frame}
+
+\newcommand{\boxat}[4]{
+  \draw[color=gray] (#1-0.5,#2-0.5) -- (#1+#3+0.5,#2-0.5) -- 
+    (#1+#3+0.5,#2+#4+0.5) -- (#1-0.5,#2+#4+0.5) -- (#1-0.5,#2-0.5);}
+\newcommand{\seta}[2]{ \draw[->] #1 -- #2}
+\newcommand{\setaemph}[2]{ \draw[thick,color=red,->] #1 -- #2}
+\makesection{Funções}
+
+\makesubsection{Injetividade e Sobrejetividade}
+
+\myframe {
+  Uma função $f:A\rightarrow B$ é {\bf injetiva}, ou {\bf injetora}, se
+  para qualquer $x,y\in A$, com $x \neq y$, 
+  temos $f(x) \neq f(y)$.
+
+  Isto é análogo a dizer que se $f(x) = f(y)$,
+  então $x = y$.
+
+  Significa que cada elemento do contra-domínio tem no máximo
+  um elemento do domínio relacionado à ele.
+
+  Exemplo:
+  \begin{itemize}
+    \item $f:\mathbb{Z}\rightarrow\mathbb{Z}, f(n) = n + 1$ é injetiva.
+    \item $f:\mathbb{R}\rightarrow\mathbb{R}, f(x) = x^2$ não é injetiva.
+    \item $f:[0,\infty)\rightarrow\mathbb{R}, f(x) = x^2$ é injetiva.
+    \item $f:\mathbb{R}\rightarrow\mathbb{R}, f(x) = 10x - 4$ é injetiva.
+    \item $f:\mathbb{R}\rightarrow\mathbb{R}, f(x) = e^x$ é injetiva.
+    \item $f:\mathbb{R}^*\rightarrow\mathbb{R}, f(x) = \frac{1}{x}$ é injetiva.
+    \item $f:\mathbb{R}\rightarrow\mathbb{R}, f(x) = \sin(x)$ não é injetiva.
+    \item $f:[0,\pi/2]\rightarrow\mathbb{R}, f(x) = \sin(x)$ é injetiva.
+  \end{itemize}
+}
+
+\myframe {
+  Uma função $f:A\rightarrow B$ é {\bf sobrejetiva}, ou {\bf sobrejetora}, se
+  para qualquer $y \in B$, existe $x \in A$
+  tal que $f(x) = y$.
+
+  Isto é análogo a dizer que a imagem de $f$ é igual a seu
+  contra-domínio.
+
+  Significa que todo elemento do contra-domínio tem ao menos
+  um elemento do domínio relacionado à ele.
+
+  Exemplo:
+  \begin{itemize}
+    \item $f:\mathbb{Z}\rightarrow\mathbb{Z}, f(n) = n + 1$ é sobrejetiva.
+    \item $f:\mathbb{R}\rightarrow\mathbb{R}, f(x) = x^2$ não é sobrejetiva.
+    \item $f:\mathbb{R}\rightarrow[0,\infty), f(x) = x^2$ é sobrejetiva.
+    \item $f:\mathbb{R}\rightarrow[0,\infty), f(x) = e^x$ é sobrejetiva.
+    \item $f:\mathbb{R}^*\rightarrow\mathbb{R}, f(x) = \frac{1}{x}$ não é sobrejetiva.
+    \item $f:\mathbb{R}^*\rightarrow\mathbb{R}^*, f(x) = \frac{1}{x}$ é sobrejetiva.
+    \item $f:\mathbb{R}\rightarrow\mathbb{R}, f(x) = \sin(x)$ não é sobrejetiva.
+    \item $f:\mathbb{R}\rightarrow[-1,1], f(x) = \sin(x)$ é sobrejetiva.
+  \end{itemize}
+}
+
+\myframe {
+  Uma função é {\bf bijetiva}, ou {\bf bijetora}, se é ao mesmo tempo
+  bijetiva e sobrejetiva.
+
+  Exemplo:
+  \begin{itemize}
+    \item $f:\mathbb{Z}\rightarrow\mathbb{Z}, f(n) = n + 1$ é bijetora.
+    \item $f:[0,\infty)\rightarrow[0,\infty), f(x) = x^2$ é bijetora.
+    \item $f:\mathbb{R}\rightarrow(0,\infty), f(x) = e^x$ é bijetora.
+    \item $f:(0,\infty)\rightarrow\mathbb{R}, f(x) = \ln x$ é bijetora.
+    \item $f:\mathbb{R}^*\rightarrow\mathbb{R}^*, f(x) = \frac{1}{x}$ é bijetora.
+    \item $f:[0,\infty)\rightarrow[0,\infty), f(x) = \sqrt{x}$ é bijetora.
+  \end{itemize}
+}
+
+\makesubsection{Funções Compostas}
+
+\myframe {
+  \begin{center}
+  \begin{tikzpicture}
+    \node (f) at (1,5) {$f$};
+    \node[draw,circle] (1) at (0,4){1};
+    \node[draw,circle] (2) at (0,3){2};
+    \node[draw,circle] (3) at (0,2){3};
+    \node[draw,circle] (4) at (0,1){4};
+    \node[draw,circle] (5) at (0,0){5};
+    \node[draw,circle] (a) at (2,3){a};
+    \node[draw,circle] (b) at (2,2){b};
+    \node[draw,circle] (c) at (2,1){c};
+    \node (g) at (7,5) {$g$};
+    \node[draw,circle] (a2) at (6,3){a};
+    \node[draw,circle] (b2) at (6,2){b};
+    \node[draw,circle] (c2) at (6,1){c};
+    \node[draw,circle] (alpha) at (8,3){$\alpha$};
+    \node[draw,circle] (beta) at (8,2){$\beta$};
+    \node[draw,circle] (gamma) at (8,1){$\gamma$};
+    \node[draw=gray,fit=(1) (2) (3) (4) (5)] {};
+    \node[draw=gray,fit=(a) (b) (c)] {};
+    \node[draw=gray,fit=(a2) (b2) (c2)] {};
+    \node[draw=gray,fit=(alpha) (beta) (gamma)] {};
+    \seta{(1)}{(a)};
+    \seta{(2)}{(c)};
+    \seta{(3)}{(b)};
+    \seta{(4)}{(b)};
+    \seta{(5)}{(c)};
+    \seta{(a2)}{(gamma)};
+    \seta{(b2)}{(beta)};
+    \seta{(c2)}{(alpha)};
+  \end{tikzpicture}
+  \end{center}
+}
+
+\myframe {
+  \begin{center}
+  \begin{tikzpicture}
+    \node (f) at (1,5) {$f$};
+    \node[draw,circle] (1) at (0,4){1};
+    \node[draw,circle] (2) at (0,3){2};
+    \node[draw,circle] (3) at (0,2){3};
+    \node[draw,circle] (4) at (0,1){4};
+    \node[draw,circle] (5) at (0,0){5};
+    \node[draw,circle] (a) at (2,3){a};
+    \node[draw,circle] (b) at (2,2){b};
+    \node[draw,circle] (c) at (2,1){c};
+    \node (g) at (3,5) {$g$};
+    \node[draw,circle] (alpha) at (4,3){$\alpha$};
+    \node[draw,circle] (beta) at (4,2){$\beta$};
+    \node[draw,circle] (gamma) at (4,1){$\gamma$};
+    \node[draw=gray,fit=(1) (2) (3) (4) (5)] {};
+    \node[draw=gray,fit=(a) (b) (c)] {};
+    \node[draw=gray,fit=(alpha) (beta) (gamma)] {};
+    \seta{(1)}{(a)};
+    \seta{(2)}{(c)};
+    \seta{(3)}{(b)};
+    \seta{(4)}{(b)};
+    \seta{(5)}{(c)};
+    \seta{(a)}{(gamma)};
+    \seta{(b)}{(beta)};
+    \seta{(c)}{(alpha)};
+    \only<2>{\setaemph{(1)}{(a)}; \setaemph{(a)}{(gamma)};}
+    \only<3>{\setaemph{(2)}{(c)}; \setaemph{(c)}{(alpha)};}
+    \only<4>{\setaemph{(3)}{(b)}; \setaemph{(b)}{(beta)};}
+    \only<5>{\setaemph{(4)}{(b)}; \setaemph{(b)}{(beta)};}
+    \only<6>{\setaemph{(5)}{(c)}; \setaemph{(c)}{(alpha)};}
+  \end{tikzpicture}
+  \hspace{2 cm}
+  \begin{tikzpicture}
+    \node (f) at (1,5) {$g\circ f = g(f)$};
+    \node[draw,circle] (1) at (0,4){1};
+    \node[draw,circle] (2) at (0,3){2};
+    \node[draw,circle] (3) at (0,2){3};
+    \node[draw,circle] (4) at (0,1){4};
+    \node[draw,circle] (5) at (0,0){5};
+    \node[draw,circle] (alpha) at (2,3){$\alpha$};
+    \node[draw,circle] (beta) at (2,2){$\beta$};
+    \node[draw,circle] (gamma) at (2,1){$\gamma$};
+    \only<2->{\seta{(1)}{(gamma)};}
+    \only<3->{\seta{(2)}{(alpha)};}
+    \only<4->{\seta{(3)}{(beta)};}
+    \only<5->{\seta{(4)}{(beta)};}
+    \only<6->{\seta{(5)}{(alpha)};}
+  \end{tikzpicture}
+  \end{center}
+}
+
+\myframe {
+  $$ f:A\rightarrow B, \qquad g:B\rightarrow C $$
+  $$ g\circ f:A\rightarrow C $$
+  $$ (g\circ f)(x) = g(f(x)) $$
+  Exemplo:
+  \begin{itemize}
+    \item $ f(x) = x^2 \qquad g(x) = x + 3 $
+      $$ (g\circ f)(x) = g(f(x)) = f(x) + 3 = x^2 + 3 $$
+      $$ (f\circ g)(x) = f(g(x)) = g(x)^2 = (x + 3)^2 $$
+    \item $ f(x) = e^x \qquad g(x) = -x^2 $
+      $$ (g\circ f)(x) = g(f(x)) = -f(x)^2 = -(e^x)^2 = -e^{2x} $$
+      $$ (f\circ g)(x) = f(g(x)) = e^{g(x)} = e^{-x^2} $$
+  \end{itemize}
+}
+
+\myframe {
+  $$ f^2(x) = (f\circ f)(x) = f(f(x)) $$
+  $$ f^3(x) = (f\circ f^2)(x) = f(f^2(x)) = f(f(f(x))) $$
+  \spc
+  \pause
+  $$ {\color{red} f^2(x) \neq f(x)^2, \qquad \mbox{em geral}} $$
+  Exemplo: $f(x) = x - 1$
+    $$ f^2(x) = f(f(x)) = f(x) - 1 = x - 2 $$
+    $$ f(x)^2 = (x - 1)^2 = x^2 - 2x + 1 $$
+}
+
+\makesubsection{Função inversa}
+
+\myframe {
+  Considere $f:A\rightarrow B$ bijetora.
+
+  Então todo elemento de $B$ tem um único elemento associado em $A$.
+
+  Então podemos definir essa função, que leva cada elemento de $B$ no
+  seu elemento relacionado.
+
+  Essa função é chamada de inversa, e é escrita como $f^{-1}:B \rightarrow A$.
+
+  A inversa satisfaz $f(f^{-1}(y)) = y$ e $f^{-1}(f(x)) = x$.
+
+  Exemplo:
+  \begin{itemize}
+    \item $f:\mathbb{Z}\rightarrow\mathbb{Z}, f(n) = n + 1$
+      $$f^{-1}(n) = n - 1$$
+    \item $f:[0,\infty)\rightarrow[0,\infty), f(x) = x^2$
+      $$f^{-1}(x) = \sqrt{x}$$
+  \end{itemize}
+}
+
+\myframe {
+  Exemplo:
+  \begin{itemize}
+    \item $f:\mathbb{R}\rightarrow(0,\infty), 
+      \qquad f(x) = e^x
+      \qquad f^{-1}(x) = \ln x $
+    \item $f:\mathbb{R}^*\rightarrow\mathbb{R}^*, 
+      \qquad f(x) = \dfrac{1}{x}
+      \qquad f^{-1}(x) = \dfrac{1}{x} $
+    \item $f:(-\pi/2,\pi/2)\rightarrow\mathbb{R}, 
+      \qquad f(x) = \tan x
+      \qquad f^{-1}(x) = \mbox{arc}\tan x $
+    \item $f:\mathbb{R}\rightarrow\mathbb{R}, 
+      \qquad f(x) = mx + b, m \neq 0
+      \qquad f^{-1}(x) = \dfrac{x - b}{m} $
+    \item $f:\mathbb{N}\rightarrow\mathbb{Z},
+      \qquad f(n) = \left\{
+        \begin{array}{ll}
+          -n/2, & n\mbox{ par} \\
+          (n+1)/2 , & n\mbox{ ímpar}
+        \end{array}\right.$
+        $$f^{-1}(n) = \left\{
+        \begin{array}{ll}
+          -2n, & n \leq 0 \\
+          2n - 1, & n > 0
+        \end{array}\right.$$
+  \end{itemize}
+}
+
+
+\end{document}

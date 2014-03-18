@@ -1,0 +1,353 @@
+\documentclass[10 pt]{beamer}
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+\usepackage[utf8]{inputenc}
+\usepackage{framed}
+%\usepackage[dvipsnames]{color}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{epsfig}
+\usepackage{abel}
+\usepackage{tikz}
+\usepackage{amssymb, amsmath, amsfonts}
+\bibliographystyle{plain}
+%\topmargin		0 cm
+%\hoffset		0 cm
+%\voffset		0 cm
+%\evensidemargin		0 cm
+%\oddsidemargin		0 cm
+%\setlength{\textwidth}{16 cm}
+%\setlength{\textheight}{21 cm}
+
+\colorlet{mybasecolor}[rgb]{teal}
+
+\colorlet{mydarkestcolor}[rgb]{mybasecolor!20!black}
+\colorlet{mydarkcolor}[rgb]{mybasecolor!60!black}
+\colorlet{mynormalcolor}[rgb]{mybasecolor!90!black}
+\colorlet{mylightcolor}[rgb]{mybasecolor!10!white}
+
+\colorlet{mysidebarcolor}[rgb]{mydarkcolor}
+\colorlet{mylogobg}[rgb]{mylightcolor}
+\colorlet{mylogofg}[rgb]{mydarkestcolor}
+\colorlet{mysidebarauthor}[rgb]{mylightcolor}
+\colorlet{mysidebartitle}[rgb]{mylightcolor}
+\colorlet{mysidebarsecfg}[rgb]{mydarkestcolor}
+\colorlet{mysidebarsecbg}[rgb]{mylightcolor}
+\colorlet{mysidebarsubsecfg}[rgb]{mydarkestcolor}
+\colorlet{mysidebarsubsecbg}[rgb]{mylightcolor}
+\colorlet{myframetitlefg}[rgb]{mylightcolor}
+\colorlet{myframetitlebg}[rgb]{mydarkcolor}
+\colorlet{myitemcolor}[rgb]{mynormalcolor}
+\colorlet{myfontcolor}[rgb]{mydarkestcolor}
+\colorlet{mytitlefg}[rgb]{mylightcolor}
+\colorlet{mytitlebg}[rgb]{mydarkcolor}
+\colorlet{myauthorfg}[rgb]{mylightcolor}
+\colorlet{myauthorbg}[rgb]{mydarkcolor}
+
+\useinnertheme{rounded}
+\setbeamercolor{structure}{fg = myitemcolor}
+%\useoutertheme[height=1 cm,width=1.6 cm]{sidebar}
+\useoutertheme{smoothtree}
+
+\setbeamercolor{palette secondary}{bg=mylogobg,fg=mylogofg} %cor do logo
+\setbeamercolor{sidebar}{bg=mysidebarcolor} %Background do sidebar
+\setbeamercolor{palette sidebar tertiary}{fg = mysidebarauthor} %Autor no sidebar
+\setbeamercolor{palette sidebar quaternary}{fg = mysidebartitle} %Titulo no sidebar
+\setbeamercolor{section in sidebar}{fg = mysidebarsecfg,bg = mysidebarsecbg} %A cor eh a media de fg e bg
+\setbeamercolor{subsection in sidebar}{fg = mysidebarsubsecfg,bg = mysidebarsubsecbg} %A cor eh a media de fg e bg
+\setbeamercolor{frametitle}{fg = myframetitlefg, bg = myframetitlebg} 
+\setbeamercolor{title}{bg = mytitlebg,fg = mytitlefg}
+\setbeamerfont{title}{series = \bf}
+\setbeamercolor{author}{bg = myauthorbg,fg = myauthorfg}
+\setbeamerfont{author}{series = \it}
+\setbeamercolor{normal text}{bg = white, fg = myfontcolor}
+%\setbeamercolor{normal text}{bg = black, fg = white}
+%\setbeamerfont{normal text}{family=serif}
+\usefonttheme[onlymath]{serif}
+%\logo{\includegraphics[scale=0.35]{logo.png}}
+%\logo{$\min f(x)$}
+
+\newcommand{\makesection}[1]{\section[#1]{#1}}
+\newcommand{\makesubsection}[1]{\subsection[#1]{#1}}
+
+\algrenewcommand\algorithmicif{\textbf{se}}
+\algrenewcommand\algorithmicthen{\textbf{então}}
+\algrenewcommand\algorithmicend{\textbf{fim do}}
+\algrenewcommand\algorithmicwhile{\textbf{enquanto}}
+\algrenewcommand\algorithmicdo{\textbf{faça}}
+\algrenewcommand\algorithmicelse{\textbf{senão}}
+
+\title{ MS380 - Aula 1 \\
+Conceitos Elementares, Escalas e Taxas de Crescimento}
+\author{Abel Soares Siqueira \\
+Laércio Luís Vendite}
+\date{}
+
+\newcommand{\myframe}[1]{
+\begin{frame}
+ \frametitle{\insertsection \qquad {\small \insertsubsection}}
+#1
+\end{frame}}
+\newcommand{\myframetop}[1]{
+\begin{frame}[t]
+ \frametitle{\insertsection \qquad {\small \insertsubsection}}
+#1
+\end{frame}}
+% \newcommand{\visiblelbl}[1]{\label{#1}{\color{red}{#1}}}
+\newcommand{\visiblelbl}[1]{\label{#1}}
+\newcommand{\spc}{\vspace{0.5 cm}}
+\newcommand{\systemtwo}[1]{$
+  \left\{\begin{array}{rcrcr} #1
+  \end{array}\right.$}
+\newcommand{\systemthree}[1]{$
+  \left\{\begin{array}{rcrcrcr}
+  #1
+  \end{array}\right.$}
+
+\begin{document}
+
+\begin{frame}
+ \titlepage
+\end{frame}
+
+\makesection{Truncamento e Arredondamento}
+
+\myframe {
+  \begin{itemize}
+    \item<1-> Truncamento: \\
+      \begin{align*}
+        12,34534 & \approx 12,34 \\
+        0,0001 & \approx 0 \\
+        25,999 & \approx 25,99 \\
+        25,001 & \approx 25
+      \end{align*}
+    \item<2-> Arredondamento: \\
+      \begin{align*}
+        12,34534 & \approx 12,35 \\
+        0,0001 & \approx 0 \\
+        25,999 & \approx 26 \\
+        25,001 & \approx 25
+      \end{align*}
+  \end{itemize}
+}
+
+\makesection{Escalas}
+
+\myframe {
+\begin{itemize}
+  \item O registro das ocorrências de um estudo científico necessita de um meio 
+  de se representar os acontecimentos e fenômenos adequadamente, ou seja, 
+  de registrar dados, o que é realizado através das chamadas "escalas numéricas". 
+  \item Basicamente, trata-se de modos de expressar as qualidades e/ou quantidades das coisas.
+  \item As escalas podem ser  essencialmente de quatro tipos: Nominal, Ordinal, Intervalar e Razão.
+  \end{itemize}
+}
+
+\makesubsection{Escala Nominal}
+
+\myframe {
+  Escala Nominal
+  \begin{itemize}
+    \item É o nível mais elementar de representação, baseado no 
+      agrupamento e classificação de elementos para a formação de conjuntos distintos.
+    \item As observações são divididas em categorias segundo um ou mais de seus atributos
+    \item Registros essencialmente qualitativos, referentes a qual o 
+      tipo de sujeito, objeto e/ou acontecimento que foi detectado em cada caso. 
+    \item Espécies biológicas, áreas da farmácia, substâncias na química etc.
+  \end{itemize}
+}
+
+\makesubsection{Escala Ordinal}
+
+\myframe {
+  Escala Ordinal
+  \begin{itemize}
+    \item É a avaliação de um fenômeno em termos de onde ele se 
+      situa dentro de um conjunto de patamares ordenados, 
+      variando desde um patamar mínimo até um máximo. 
+    \item Geralmente, designa-se os valores de uma escala ordinal 
+      em termos de numerais, ranking ou rótulos, sendo estas apenas 
+      maneiras diferentes de se expressar o mesmo tipo de dado. 
+    \item Escala de dor, diagnóstico médico, QI, escala de dureza dos metais, etc.
+  \end{itemize}
+}
+
+\makesubsection{Escala Intervalar}
+
+\myframe {
+  Escala Intervalar
+  \begin{itemize}
+    \item É uma forma quantitativa de registrar um fenômeno, medindo-o em 
+      termos da sua intensidade específica, ou seja, posicionando-o com 
+      relação a um valor conhecido arbitrariamente denominado como ponto zero. 
+    \item Duas variações iguais em termos de medidas intervalares 
+      necessariamente correspondem a variações iguais em termos do 
+      valor do que está sendo medido. 
+    \item Altitude, tempo, etc
+  \end{itemize}
+}
+
+\makesubsection{Escala de Razão}
+
+\myframe {
+  Escala de Razão
+  \begin{itemize}
+    \item É a mais completa e sofisticada das escalas numéricas. 
+      Ela é uma quantificação produzida a partir da identificação de 
+      um ponto zero que é fixo e absoluto, representando, de fato, um 
+      ponto de nulidade, ausência e/ou mínimo. 
+    \item Uma unidade de medida é definida em termos da diferença entre 
+      o ponto zero e uma intensidade conhecida. 
+    \item Um aspecto importante a ser observado é o de que, nas escalas de 
+      razão, um valor de "2" efetivamente indica uma quantidade duas vezes 
+      maior do que a do valor "1", e assim por diante, o que não necessariamente 
+      acontece nas demais escalas. 
+    \item Peso do corpo, altura do indivíduo, volume, etc...
+  \end{itemize}
+}
+
+\makesection{Taxas de Crescimento}
+
+\makesubsection{Valor Atual - Valor Futuro}
+
+\myframe {
+  \begin{center}
+  \begin{tikzpicture}
+    \draw (-1,0) -- (4,0);
+    \pause
+    \draw[->,color=blue] (0,1)  -- (0,0) node[midway,left] {$V_A$} node[below] {$0$};
+    \pause
+    \draw[->,color=blue] (3,0) node[below] {$1$} -- (3,1) node[midway,left] {$V_F$};
+    \pause
+    \draw[color=red] (0.2,-0.2) -- (2.8,-0.2) node[midway,below] {taxa $r$};
+  \end{tikzpicture}
+  \onslide<5->{
+  $$ V_F = V_A(1+r) \qquad \qquad V_A = \frac{V_F}{1+r}$$}
+  \end{center}
+}
+
+\myframe {
+  \begin{center}
+    \begin{tabular}{c|r}
+    {\bf Ano} & {\bf População} \\ \hline
+     1940 & 41.236.315 \\
+     1950 & 51.944.397 \\
+     1960 & 70.191.370 \\
+     1970 & 93.139.037 \\
+     1980 & 119.002.706 \\
+     1990 & 146.352.150 \\
+     2000 & 169.544.443 \\
+     2010 & 190.732.694
+    \end{tabular}
+  \end{center}
+}
+
+\myframe{
+  {\bf Qual a taxa de crescimento de 1980 para 1990?}
+  \begin{align*}
+    \onslide<1->{P_{1980} & = 119.002.706} \\
+    \onslide<2->{P_{1990} & = 146.352.150} \\
+    \onslide<3->{P_{1990} & = P_{1980}(1+r)} \\
+    \onslide<4->{1 + r & = \frac{P_{1990}}{P_{1980}}} \\
+    \onslide<5->{r & = \frac{146.352.150}{119.002.706} - 1} \\
+    \onslide<6->{r & \approx 0.2298 = 22.98\%} 
+  \end{align*}
+}
+
+\myframe{
+  {\bf Se a taxa de crescimento de 1990 para 2000 se mantesse a mesma
+    da década anterior, qual seria a população de 2000?}
+  \begin{align*}
+    \onslide<1->{P_{1990} & = 146.352.150} \\
+    \onslide<2->{r & = 0.2298 } \\
+    \onslide<3->{P_{2000} & = P_{1990}(1+r) } \\
+    \onslide<4->{P_{2000} & = 146.352.150\times(1+0.2298) } \\
+    \onslide<5->{P_{2000} & = 179.983.874 } \\
+  \end{align*}
+}
+
+\makesubsection{Múltiplas Taxas}
+
+\myframe{
+  \begin{center}
+  \begin{tikzpicture}
+    \draw (-1,0) -- (5,0);
+    \pause
+    \draw[->,color=blue] (0,1)  -- (0,0) node[midway,left] {$P_0$} node[below] {$0$};
+    \pause
+    \draw[->,color=blue] (1,1)  -- (1,0) node[midway,left] {$P_1$} node[below] {$1$};
+    \pause
+    \draw[->,color=blue] (2,1)  -- (2,0) node[midway,left] {$P_2$} node[below] {$2$};
+    \pause
+    \node at (3,0.5) {$\cdots$};
+    \pause
+    \draw[->,color=blue] (4,0) node[below] {$n$} -- (4,1) node[midway,left] {$P_n$};
+    \pause
+    \draw[color=red] (0.2,-0.2) -- (0.8,-0.2) node[midway,below] {$r_1$};
+    \pause
+    \draw[color=red] (1.2,-0.2) -- (1.8,-0.2) node[midway,below] {$r_2$};
+  \end{tikzpicture}
+    \begin{align*}
+      \onslide<9->{P_1 & = P_0 (1 + r_1) } \\
+      \onslide<10->{P_2 & = P_1 (1 + r_2) = P_0 (1 + r_1)(1 + r_2) } \\
+      \onslide<11->{P_n & = P_0(1+r_1)(1+r_2)\dots(1+r_n) }
+    \end{align*}
+  \end{center}
+}
+
+\makesubsection{Taxa acumulada}
+
+\myframe {
+  \begin{center}
+    Considere uma única taxa $r_a$ de $P_0$ a $P_n$
+    \pause
+    $$ P_n = P_0(1 + r_a) $$
+    \pause
+    Pela fórmula anterior
+    $$ P_0(1 + r_a) = P_0(1+r_1)(1+r_2)\dots(1+r_n) $$
+    \pause
+    Logo, a taxa acumulada é
+    $$ r_a = (1+r_1)(1+r_2)\dots(1+r_n) - 1 $$
+  \end{center}
+}
+
+\makesubsection{Taxas equivalentes}
+
+\myframe {
+  \begin{center}
+    Exemplos:
+    \pause
+    \begin{description}
+      \item[$i_a$] Taxa anual
+      \item[$i_m$] Taxa mensal
+      \item[$i_t$] Taxa trimestral
+      \item[$i_d$] Taxa diária
+    \end{description}   \pause
+    \begin{align*}
+     (1 + i_a) & = (1 + i_m)^{12} \\
+     (1 + i_a) & = (1 + i_t)^4 \\
+     (1 + i_m) & = (1 + i_d)^{30}
+    \end{align*}
+  \end{center}
+}
+
+\myframe {
+  Lembrando que a taxa de crescimento da década de 1980 para 1990 foi 22.98\%,
+  qual a taxa de crescimento anual equivalente nesse período?
+  \spc
+  Como uma década tem 10 anos, as taxas $i_a$ anual e $i_D$ da década satisfazem
+  $$ (1 + i_D) = (1 + i_a)^{10} $$
+  \pause
+  Daí
+  $$ (1 + i_a) = (1 + i_D)^{1/10} $$
+  \pause
+  $$ i_a = (1 + i_D)^{1/10} - 1 $$
+  \pause
+  $$ i_a = (1.2298)^{1/10} - 1 $$
+  \pause
+  $$ i_a = 0.0209 $$
+}
+
+\end{document}
