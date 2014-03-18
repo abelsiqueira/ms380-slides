@@ -1,2 +1,4 @@
 *.out
 *.pdf
+*.gnuplot
+*.table

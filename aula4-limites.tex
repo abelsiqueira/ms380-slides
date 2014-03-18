@@ -242,7 +242,7 @@ Laércio Luís Vendite}
 \myframe {
   Dado uma sequência real $(a_n)$, se existir $L \in \mathbb{R}$ tal que
   para todo $\varepsilon > 0$, existe $n_0 \in \mathbb{N}$ tal que
-  $\modulo{a_n - L} < \varepsilon$ para todo $n > n_0$.
+  $\vert{a_n - L}\vert < \varepsilon$ para todo $n > n_0$.
 
   Escrevemos $$\lim_{n\rightarrow\infty} a_n = L.$$
 
@@ -299,7 +299,7 @@ Laércio Luís Vendite}
 
   $$ \limninf a_n = \left\{
     \begin{array}{ll}
-      0, & \modulo{q} < 1 \\
+      0, & \vert{q}\vert < 1 \\
       a_0, & q = 1 \\
       \infty, & q > 1 \\
       \mbox{não existe}, & q \leq -1
@@ -360,8 +360,8 @@ Laércio Luís Vendite}
   Dado uma função $f$, com $a \in \mathbb{R}$, se existe $L \in \mathbb{R}$
   tal que, para todo $\varepsilon > 0$, existe $\delta > 0$ (que depende
   de $\varepsilon$) tal que
-  $$\mbox{se } \qquad 0 < \modulo{x - a} < \delta, \qquad \mbox{então} \qquad
-      \modulo{f(x) - L} < \varepsilon$$
+  $$\mbox{se } \qquad 0 < \vert{x - a}\vert < \delta, \qquad \mbox{então} \qquad
+      \vert{f(x) - L}\vert < \varepsilon$$
   \begin{center}
     \begin{tikzpicture}[domain=0.0:3.5]
       \draw[->] (-0.1,0) -- (4.1,0);
